@@ -1,50 +1,32 @@
-[
-    {
-        "id": 1,
-        "name": "iPhone 15 Pro",
-        "price": 15000000,
-        "description": "Smartphone premium dengan kamera pro, chip A17 Pro, dan titanium design",
-        "image": "https://via.placeholder.com/300x200/000000/ffffff?text=iPhone+15+Pro",
-        "stock": 10
+{
+    "storeInfo": {
+        "name": "RYY STORE",
+        "description": "Minimalist Selection"
     },
-    {
-        "id": 2,
-        "name": "MacBook Air M2",
-        "price": 18000000,
-        "description": "Laptop tipis dan ringan dengan performa luar biasa dan baterai tahan lama",
-        "image": "https://via.placeholder.com/300x200/808080/ffffff?text=MacBook+Air",
-        "stock": 5
-    },
-    {
-        "id": 3,
-        "name": "AirPods Pro 2",
-        "price": 3500000,
-        "description": "Earbuds dengan noise cancellation terbaik dan kualitas audio premium",
-        "image": "https://via.placeholder.com/300x200/ffffff/000000?text=AirPods+Pro",
-        "stock": 20
-    },
-    {
-        "id": 4,
-        "name": "Apple Watch Series 9",
-        "price": 6500000,
-        "description": "Smartwatch dengan fitur kesehatan lengkap dan desain elegan",
-        "image": "https://via.placeholder.com/300x200/333333/ffffff?text=Apple+Watch",
-        "stock": 15
-    },
-    {
-        "id": 5,
-        "name": "iPad Pro 12.9",
-        "price": 20000000,
-        "description": "Tablet profesional dengan layar Liquid Retina XDR dan chip M2",
-        "image": "https://via.placeholder.com/300x200/666666/ffffff?text=iPad+Pro",
-        "stock": 8
-    },
-    {
-        "id": 6,
-        "name": "HomePod Mini",
-        "price": 2500000,
-        "description": "Smart speaker dengan kualitas suara mengagumkan dan integrasi Siri",
-        "image": "https://via.placeholder.com/300x200/999999/ffffff?text=HomePod+Mini",
-        "stock": 12
-    }
-]
+    "products": [
+        {
+            "id": 1,
+            "name": "MacBook Pro M3",
+            "price": 24999000,
+            "stock": 6,
+            "description": "Laptop super kencang dengan chip M3.",
+            "image": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&auto=format&fit=crop&q=60"
+        },
+        {
+            "id": 2,
+            "name": "iPhone 15 Pro",
+            "price": 18499000,
+            "stock": 14,
+            "description": "Titanium design, chip A17 Pro.",
+            "image": "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=500&auto=format&fit=crop&q=60"
+        },
+        {
+            "id": 3,
+            "name": "AirPods Pro Gen 2",
+            "price": 3999000,
+            "stock": 12,
+            "description": "Active Noise Cancellation imersif.",
+            "image": "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=500&auto=format&fit=crop&q=60"
+        }
+    ]
+}
