@@ -3,146 +3,926 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apple Store - Premium Store</title>
-    <link rel="stylesheet" href="style.css">
+    <title>RYY DIGITAL STORE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f5f5f7;
+            --card-bg: #ffffff;
+            --text-main: #1d1d1f;
+            --text-muted: #86868b;
+            --border-color: #d2d2d7;
+            --accent-dark: #000000;
+            --accent-gray: #e8e8ed;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Compact Apple Auth */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 16px;
+        }
+
+        .auth-card {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 380px;
+            padding: 32px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+            text-align: center;
+        }
+
+        .store-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+            color: var(--accent-dark);
+        }
+
+        .store-subtitle {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 24px;
+        }
+
+        .auth-step {
+            display: none;
+        }
+
+        .auth-step.active {
+            display: block;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 14px;
+            margin-bottom: 12px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--accent-dark);
+            background: #fff;
+        }
+
+        input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .btn-black {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent-dark);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-black:hover {
+            opacity: 0.85;
+        }
+
+        .info-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        /* Compact Header */
+        .store-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .brand-area h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-dark);
+        }
+
+        .brand-area p {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-icon-minimal {
+            background: var(--accent-gray);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+
+        .btn-icon-minimal:hover {
+            background: var(--border-color);
+        }
+
+        .btn-icon-minimal svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        /* Main Content & Compact Grid */
+        .main-container {
+            max-width: 900px;
+            margin: 24px auto;
+            padding: 0 16px;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        .greeting-banner {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: -0.3px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            letter-spacing: -0.2px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            background: #f0f0f2;
+        }
+
+        .product-info {
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .product-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            flex-grow: 1;
+            line-height: 1.3;
+        }
+
+        .product-price {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--accent-dark);
+        }
+
+        .btn-add {
+            background: var(--accent-dark);
+            color: #fff;
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-add:hover {
+            opacity: 0.85;
+        }
+
+        /* Modal Overlays */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            padding: 20px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .modal-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .modal-top h3 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        /* Profile Modal List */
+        .profile-info-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .profile-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: var(--bg-color);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            font-size: 0.85rem;
+        }
+
+        .profile-row span:first-child {
+            color: var(--text-muted);
+        }
+
+        .profile-row span:last-child {
+            font-weight: 600;
+        }
+
+        /* Cart List & Checkout */
+        .cart-list {
+            max-height: 140px;
+            overflow-y: auto;
+            margin-bottom: 12px;
+            padding-right: 4px;
+        }
+
+        .cart-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--bg-color);
+        }
+
+        .cart-row-info h4 {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .cart-row-info p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .btn-del {
+            background: rgba(255, 59, 48, 0.1);
+            color: #ff3b30;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+
+        .checkout-box {
+            border-top: 1px solid var(--border-color);
+            padding-top: 12px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .form-group input, .form-group select {
+            margin-bottom: 10px;
+        }
+
+        /* QRIS Panel */
+        .qris-panel {
+            text-align: center;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 12px;
+            margin-top: 8px;
+        }
+
+        .qris-image {
+            width: 150px;
+            height: 150px;
+            background: #fff;
+            padding: 6px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            object-fit: contain;
+        }
+
+        .qris-instruction {
+            font-size: 0.75rem;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        /* Footer */
+        .store-footer {
+            border-top: 1px solid var(--border-color);
+            background: var(--card-bg);
+            padding: 24px 16px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .footer-copy {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .contact-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .contact-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-contact {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-contact:hover {
+            background: var(--accent-dark);
+            color: #fff;
+            border-color: var(--accent-dark);
+        }
+    </style>
 </head>
 <body>
-    <!-- Login Modal -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content glass">
-            <div class="modal-header">
-                <h2>Selamat Datang</h2>
-                <p>Masuk untuk melanjutkan</p>
+
+    <!-- AUTH SECTION -->
+    <div id="auth-section" class="auth-container">
+        <div class="auth-card">
+            <h1 class="store-title">RYY STORE</h1>
+            <p class="store-subtitle">Masuk untuk mulai berbelanja</p>
+            
+            <div id="step-contact" class="auth-step active">
+                <input type="text" id="contact-input" placeholder="Nomor HP atau Email">
+                <button onclick="sendOTP()" class="btn-black">Kirim OTP</button>
             </div>
-            <div class="login-tabs">
-                <button class="tab-btn active" onclick="switchTab('email')">Email</button>
-                <button class="tab-btn" onclick="switchTab('phone')">Nomor HP</button>
+
+            <div id="step-otp" class="auth-step">
+                <p class="info-text">Kode OTP (Cek Interface): <strong id="otp-display" style="color: var(--accent-dark);"></strong></p>
+                <input type="text" id="otp-input" placeholder="Masukkan 4 digit OTP">
+                <button onclick="verifyOTP()" class="btn-black">Verifikasi OTP</button>
             </div>
-            <div id="emailLogin" class="login-form">
-                <input type="email" id="loginEmail" placeholder="Email Anda" required>
-                <button class="btn-primary" onclick="sendOTP('email')">Kirim OTP</button>
+
+            <div id="step-username" class="auth-step">
+                <input type="text" id="username-input" placeholder="Buat Username Unik">
+                <button onclick="saveUsername()" class="btn-black">Simpan & Masuk</button>
             </div>
-            <div id="phoneLogin" class="login-form" style="display:none">
-                <input type="tel" id="loginPhone" placeholder="Nomor HP (08xx)" required>
-                <button class="btn-primary" onclick="sendOTP('phone')">Kirim OTP</button>
-            </div>
-            <div id="otpSection" style="display:none">
-                <input type="text" id="otpInput" placeholder="Masukkan 6 digit OTP" maxlength="6">
-                <button class="btn-primary" onclick="verifyOTP()">Verifikasi</button>
-            </div>
-            <div class="divider">atau</div>
-            <button class="btn-google" onclick="googleLogin()">
-                <svg viewBox="0 0 24 24" width="20" height="20">
-                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                </svg>
-                Lanjutkan dengan Google
-            </button>
         </div>
     </div>
 
-    <!-- Username Setup Modal -->
-    <div id="usernameModal" class="modal" style="display:none">
-        <div class="modal-content glass">
-            <h2>Pilih Username</h2>
-            <p>Username akan menjadi identitas Anda di toko ini</p>
-            <input type="text" id="usernameInput" placeholder="Username (min. 3 karakter)" required>
-            <p id="usernameError" class="error-text"></p>
-            <button class="btn-primary" onclick="setUsername()">Lanjutkan</button>
-        </div>
-    </div>
-
-    <!-- Main App -->
-    <div id="mainApp" style="display:none">
-        <!-- Navbar -->
-        <nav class="navbar glass">
-            <div class="nav-brand">
-                <span class="logo">🍎</span>
-                <span>Apple Store</span>
-            </div>
-            <div class="nav-links">
-                <a href="#products">Produk</a>
-                <a href="#about">Tentang</a>
+    <!-- MAIN APP SECTION -->
+    <div id="app-section" class="hidden" style="display: flex; flex-direction: column; min-height: 100vh;">
+        <header class="store-header">
+            <div class="brand-area">
+                <h2 id="store-name-display">RYY STORE</h2>
+                <p id="store-desc-display">Minimalist Selection</p>
             </div>
             <div class="nav-actions">
-                <button class="cart-btn" onclick="toggleCart()">
-                    🛒 <span id="cartCount">0</span>
+                <button onclick="toggleProfile()" class="btn-icon-minimal">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                    Profil
                 </button>
-                <div class="user-menu">
-                    <span id="userDisplay">👤</span>
-                    <div class="dropdown">
-                        <a onclick="logout()">Keluar</a>
+                <button onclick="toggleCart()" class="btn-icon-minimal">
+                    <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                    (<span id="cart-count">0</span>)
+                </button>
+                <button onclick="logout()" class="btn-icon-minimal">Keluar</button>
+            </div>
+        </header>
+
+        <main class="main-container">
+            <h2 id="greeting-banner" class="greeting-banner">Selamat Pagi @user</h2>
+            <h3 class="section-title">Katalog Produk</h3>
+            <div id="product-grid" class="product-grid"></div>
+        </main>
+
+        <!-- PROFILE MODAL -->
+        <div id="profile-modal" class="modal-overlay hidden">
+            <div class="modal-content">
+                <div class="modal-top">
+                    <h3>Profil Akun</h3>
+                    <button onclick="toggleProfile()" class="btn-close">&times;</button>
+                </div>
+                <div class="profile-info-group">
+                    <div class="profile-row">
+                        <span>Username</span>
+                        <span id="prof-username">-</span>
+                    </div>
+                    <div class="profile-row">
+                        <span>Email</span>
+                        <span id="prof-email">-</span>
+                    </div>
+                    <div class="profile-row">
+                        <span>Total Produk Dibeli</span>
+                        <span id="prof-total-items">0 Item</span>
+                    </div>
+                    <div class="profile-row">
+                        <span>Total Uang Dikeluarkan</span>
+                        <span id="prof-total-spent">Rp0</span>
                     </div>
                 </div>
-            </div>
-        </nav>
-
-        <!-- Hero Section -->
-        <section class="hero">
-            <h1>Selamat Datang di Apple Store</h1>
-            <p>Produk premium dengan kualitas terbaik</p>
-        </section>
-
-        <!-- Products Section -->
-        <section id="products" class="products-section">
-            <h2>Produk Kami</h2>
-            <div id="productsGrid" class="products-grid"></div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about" class="about-section">
-            <h2>Tentang Toko Kami</h2>
-            <p>Apple Store adalah toko online terpercaya yang menyediakan berbagai produk berkualitas dengan harga terjangkau.</p>
-        </section>
-
-        <!-- Cart Sidebar -->
-        <div id="cartSidebar" class="cart-sidebar">
-            <div class="cart-header">
-                <h3>Keranjang Belanja</h3>
-                <button class="close-btn" onclick="toggleCart()">×</button>
-            </div>
-            <div id="cartItems" class="cart-items"></div>
-            <div class="cart-footer">
-                <div class="cart-total">
-                    <span>Total:</span>
-                    <span id="cartTotal">Rp0</span>
-                </div>
-                <button class="btn-checkout" onclick="openCheckout()">Checkout</button>
+                <button onclick="toggleProfile()" class="btn-black">Tutup</button>
             </div>
         </div>
 
-        <!-- Checkout Modal -->
-        <div id="checkoutModal" class="modal" style="display:none">
-            <div class="modal-content glass checkout-modal">
-                <h2>Checkout</h2>
-                <div id="checkoutItems"></div>
-                <div class="checkout-form">
-                    <label>Nomor WhatsApp Target</label>
-                    <input type="tel" id="targetPhone" placeholder="08xxxxxxxxxx" required>
-                    
-                    <label>Metode Pembayaran</label>
-                    <select id="paymentMethod" required>
-                        <option value="">Pilih Metode</option>
-                        <option value="QRIS">QRIS</option>
-                        <option value="DANA">DANA</option>
-                        <option value="GOPAY">GOPAY</option>
-                        <option value="SHOPEEPAY">SHOPEEPAY</option>
-                        <option value="OVO">OVO</option>
-                    </select>
-                    
-                    <div class="checkout-total">
-                        <span>Total Pembayaran:</span>
-                        <span id="checkoutTotal">Rp0</span>
+        <!-- CART & CHECKOUT MODAL -->
+        <div id="cart-modal" class="modal-overlay hidden">
+            <div class="modal-content">
+                <div class="modal-top">
+                    <h3>Keranjang Belanja</h3>
+                    <button onclick="toggleCart()" class="btn-close">&times;</button>
+                </div>
+                
+                <div id="cart-items" class="cart-list"></div>
+                
+                <div class="checkout-box">
+                    <div class="total-row">
+                        <span>Total:</span>
+                        <strong id="cart-total">Rp0</strong>
                     </div>
-                    
-                    <button class="btn-primary" onclick="processCheckout()">Buat Pesanan via WhatsApp</button>
+
+                    <div class="form-group">
+                        <label>Nomor WhatsApp Target (Penerima Produk):</label>
+                        <input type="text" id="target-phone" placeholder="Contoh: 08123456789">
+
+                        <label>Metode Pembayaran:</label>
+                        <select id="payment-method" onchange="handlePaymentChange()">
+                            <option value="">Pilih Metode Pembayaran</option>
+                            <option value="QRIS">QRIS</option>
+                            <option value="DANA">DANA</option>
+                            <option value="GOPAY">GOPAY</option>
+                            <option value="SHOPEEPAY">SHOPEEPAY</option>
+                            <option value="OVO">OVO</option>
+                        </select>
+
+                        <!-- QRIS Panel -->
+                        <div id="qris-section" class="qris-panel hidden">
+                            <img src="https://cdn.phototourl.com/free/2026-08-19-7b6a333c-d325-4055-bf2e-5cb817280f57.jpg" alt="QRIS" class="qris-image">
+                            <p class="qris-instruction">Scan QRIS di atas.<br><strong>Jika sudah transfer, silahkan klik tombol dibawah untuk verifikasi.</strong></p>
+                            <button onclick="verifyQRISWhatsApp()" class="btn-black" style="background: #000; font-size: 0.8rem;">Konfirmasi Transfer ke Admin</button>
+                        </div>
+
+                        <!-- Standard Checkout E-Wallet -->
+                        <button id="btn-standard-checkout" onclick="checkoutWhatsApp()" class="btn-black">Checkout via WhatsApp</button>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- FOOTER -->
+        <footer class="store-footer">
+            <div class="footer-content">
+                <p class="footer-copy">Copyright Ryy-store ©2026</p>
+                <p class="contact-title">Contact Person</p>
+                <div class="contact-buttons">
+                    <a href="mailto:eilyansander@gmail.com" class="btn-contact">Email</a>
+                    <a href="https://t.me/blubbunii" target="_blank" class="btn-contact">Telegram</a>
+                    <a href="https://instagram.com/brzee_.sky" target="_blank" class="btn-contact">Instagram</a>
+                </div>
+            </div>
+        </footer>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        let storeData = { storeInfo: { name: "RYY STORE", description: "" }, products: [] };
+        let generatedOTP = "";
+        let cart = [];
+        const ADMIN_WA = "6282245682288";
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            await loadProducts();
+            checkLocalStorageAuth();
+            initStore();
+            setDynamicGreeting();
+        });
+
+        async function loadProducts() {
+            try {
+                const response = await fetch('produk.json');
+                if (response.ok) {
+                    storeData = await response.json();
+                }
+            } catch (error) {
+                console.error("Gagal memuat produk.json:", error);
+            }
+        }
+
+        function setDynamicGreeting() {
+            const currentUser = JSON.parse(localStorage.getItem("current_user"));
+            if (!currentUser) return;
+
+            const hour = new Date().getHours();
+            let timeGreeting = "Pagi";
+            if (hour >= 11 && hour < 15) {
+                timeGreeting = "Siang";
+            } else if (hour >= 15 && hour < 18) {
+                timeGreeting = "Sore";
+            } else if (hour >= 18 || hour < 4) {
+                timeGreeting = "Malam";
+            }
+
+            document.getElementById("greeting-banner").innerText = `Selamat ${timeGreeting} @${currentUser.username}`;
+        }
+
+        function sendOTP() {
+            const contact = document.getElementById("contact-input").value.trim();
+            if (!contact) {
+                alert("Nomor HP atau Email wajib diisi!");
+                return;
+            }
+            generatedOTP = Math.floor(1000 + Math.random() * 9000).toString();
+            document.getElementById("otp-display").innerText = generatedOTP;
+            document.getElementById("step-contact").classList.remove("active");
+            document.getElementById("step-otp").classList.add("active");
+        }
+
+        function verifyOTP() {
+            const userOTP = document.getElementById("otp-input").value.trim();
+            if (userOTP === generatedOTP) {
+                document.getElementById("step-otp").classList.remove("active");
+                document.getElementById("step-username").classList.add("active");
+            } else {
+                alert("Kode OTP salah!");
+            }
+        }
+
+        function saveUsername() {
+            const username = document.getElementById("username-input").value.trim();
+            const contact = document.getElementById("contact-input").value.trim();
+
+            if (!username) {
+                alert("Username tidak boleh kosong!");
+                return;
+            }
+
+            const existingUsers = JSON.parse(localStorage.getItem("registered_users")) || [];
+            const isTaken = existingUsers.some(user => user.username === username);
+
+            if (isTaken) {
+                alert("Username sudah digunakan orang lain.");
+                return;
+            }
+
+            const userData = { contact, username, totalItemsBought: 0, totalMoneySpent: 0 };
+            existingUsers.push(userData);
+            localStorage.setItem("registered_users", JSON.stringify(existingUsers));
+            localStorage.setItem("current_user", JSON.stringify(userData));
+
+            checkLocalStorageAuth();
+            location.reload();
+        }
+
+        function checkLocalStorageAuth() {
+            const currentUser = JSON.parse(localStorage.getItem("current_user"));
+            if (currentUser) {
+                document.getElementById("auth-section").classList.add("hidden");
+                document.getElementById("app-section").classList.remove("hidden");
+                
+                // Set Profile Data
+                document.getElementById("prof-username").innerText = `@${currentUser.username}`;
+                document.getElementById("prof-email").innerText = currentUser.contact || "-";
+                document.getElementById("prof-total-items").innerText = `${currentUser.totalItemsBought || 0} Item`;
+                document.getElementById("prof-total-spent").innerText = `Rp${(currentUser.totalMoneySpent || 0).toLocaleString('id-ID')}`;
+            } else {
+                document.getElementById("auth-section").classList.remove("hidden");
+                document.getElementById("app-section").classList.add("hidden");
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem("current_user");
+            location.reload();
+        }
+
+        function initStore() {
+            document.getElementById("store-name-display").innerText = storeData.storeInfo.name;
+            document.getElementById("store-desc-display").innerText = storeData.storeInfo.description;
+            renderProducts(storeData.products);
+        }
+
+        function renderProducts(products) {
+            const grid = document.getElementById("product-grid");
+            grid.innerHTML = "";
+            products.forEach(product => {
+                grid.innerHTML += `
+                    <div class="product-card">
+                        <img src="${product.image}" alt="${product.name}" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-name">${product.name}</h3>
+                            <p class="product-desc">${product.description}</p>
+                            <div class="product-price">Rp${product.price.toLocaleString('id-ID')}</div>
+                            <button onclick="addToCart(${product.id})" class="btn-add">Tambah</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function addToCart(productId) {
+            const product = storeData.products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            updateCartUI();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartItemsContainer = document.getElementById("cart-items");
+            const cartCount = document.getElementById("cart-count");
+            const cartTotal = document.getElementById("cart-total");
+
+            cartItemsContainer.innerHTML = "";
+            let total = 0;
+            let totalCount = 0;
+
+            cart.forEach(item => {
+                let subtotal = item.price * item.quantity;
+                total += subtotal;
+                totalCount += item.quantity;
+
+                cartItemsContainer.innerHTML += `
+                    <div class="cart-row">
+                        <div class="cart-row-info">
+                            <h4>${item.name} (${item.quantity}x)</h4>
+                            <p>Rp${subtotal.toLocaleString('id-ID')}</p>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" class="btn-del">Hapus</button>
+                    </div>
+                `;
+            });
+
+            cartCount.innerText = totalCount;
+            cartTotal.innerText = `Rp${total.toLocaleString('id-ID')}`;
+        }
+
+        function toggleCart() {
+            document.getElementById("cart-modal").classList.toggle("hidden");
+        }
+
+        function toggleProfile() {
+            document.getElementById("profile-modal").classList.toggle("hidden");
+        }
+
+        function handlePaymentChange() {
+            const paymentMethod = document.getElementById("payment-method").value;
+            const qrisSection = document.getElementById("qris-section");
+            const standardBtn = document.getElementById("btn-standard-checkout");
+
+            if (paymentMethod === "QRIS") {
+                qrisSection.classList.remove("hidden");
+                standardBtn.classList.add("hidden");
+            } else {
+                qrisSection.classList.add("hidden");
+                standardBtn.classList.remove("hidden");
+            }
+        }
+
+        function recordPurchase() {
+            let totalCount = 0;
+            let grandTotal = 0;
+
+            cart.forEach(item => {
+                totalCount += item.quantity;
+                grandTotal += (item.price * item.quantity);
+            });
+
+            let currentUser = JSON.parse(localStorage.getItem("current_user"));
+            if (currentUser) {
+                currentUser.totalItemsBought = (currentUser.totalItemsBought || 0) + totalCount;
+                currentUser.totalMoneySpent = (currentUser.totalMoneySpent || 0) + grandTotal;
+                localStorage.setItem("current_user", JSON.stringify(currentUser));
+
+                let registeredUsers = JSON.parse(localStorage.getItem("registered_users")) || [];
+                registeredUsers = registeredUsers.map(u => u.username === currentUser.username ? currentUser : u);
+                localStorage.setItem("registered_users", JSON.stringify(registeredUsers));
+            }
+        }
+
+        function checkoutWhatsApp() {
+            const targetPhone = document.getElementById("target-phone").value.trim();
+            const paymentMethod = document.getElementById("payment-method").value;
+
+            if (!targetPhone) {
+                alert("Nomor target WhatsApp (penerima) wajib diisi!");
+                return;
+            }
+
+            if (!paymentMethod) {
+                alert("Metode pembayaran wajib dipilih!");
+                return;
+            }
+
+            if (cart.length === 0) {
+                alert("Keranjang belanja masih kosong!");
+                return;
+            }
+
+            let productDetails = "";
+            let grandTotal = 0;
+
+            cart.forEach((item) => {
+                let subtotal = item.price * item.quantity;
+                grandTotal += subtotal;
+                productDetails += `\n- Nama produk: ${item.name}\n- Jumlah: ${item.quantity}\n- Harga: Rp${subtotal.toLocaleString('id-ID')}`;
+            });
+
+            recordPurchase();
+            let formattedTarget = targetPhone.startsWith('0') ? '62' + targetPhone.slice(1) : targetPhone;
+            const message = `Hallo, saya ingin membeli produk ini:${productDetails}\n- Total Keseluruhan: Rp${grandTotal.toLocaleString('id-ID')}\n- Metode Pembayaran: ${paymentMethod}\n- Nomor Penerima: ${formattedTarget}`;
+
+            const whatsappUrl = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function verifyQRISWhatsApp() {
+            const targetPhone = document.getElementById("target-phone").value.trim();
+
+            if (!targetPhone) {
+                alert("Nomor target WhatsApp (penerima) wajib diisi!");
+                return;
+            }
+
+            if (cart.length === 0) {
+                alert("Keranjang belanja masih kosong!");
+                return;
+            }
+
+            let grandTotal = 0;
+            let productNames = cart.map(item => `${item.name} (${item.quantity}x)`).join(", ");
+
+            cart.forEach((item) => {
+                grandTotal += item.price * item.quantity;
+            });
+
+            recordPurchase();
+            let jumlahStr = `Rp${grandTotal.toLocaleString('id-ID')}`;
+            let formattedTarget = targetPhone.startsWith('0') ? '62' + targetPhone.slice(1) : targetPhone;
+
+            const message = `Saya sudah mentransfer sejumlah ${jumlahStr} untuk produk ${productNames}, silakan di cek.\nNomor Penerima Produk: ${formattedTarget}`;
+
+            const whatsappUrl = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
 </body>
 </html>
