@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Default Theme: Dark & Accent Lilac */
             --bg-main: #0a0a0c;
             --card-bg: rgba(20, 20, 25, 0.75);
             --text-main: #f5f5f7;
@@ -18,7 +17,6 @@
             --glass-blur: blur(30px);
         }
 
-        /* TEMA TERANG (LIGHT MODE) */
         body.light-mode {
             --bg-main: #f2f2f7;
             --card-bg: rgba(255, 255, 255, 0.85);
@@ -29,10 +27,9 @@
         }
 
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            margin: 0; padding: 0; box-sizing: border-box;
             font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -44,47 +41,28 @@
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
             position: relative;
-            transition: background 0.3s ease, color 0.3s ease;
+            transition: background 0.35s cubic-bezier(0.4, 0, 0.2, 1), color 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* ANIMATED BACKGROUND ORBS */
         .bg-animation-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            overflow: hidden;
-            z-index: -1;
-            pointer-events: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden; z-index: -1; pointer-events: none;
             background: var(--bg-main);
-            transition: background 0.3s ease;
+            transition: background 0.35s ease;
         }
 
         .orb {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.22;
-            filter: blur(70px);
+            position: absolute; border-radius: 50%; opacity: 0.22; filter: blur(70px);
             transition: background 0.5s ease;
         }
-
-        .orb-1 {
-            width: 400px; height: 400px;
-            background: var(--accent);
-            animation: moveOrb1 32s infinite alternate cubic-bezier(0.37, 0, 0.63, 1);
-        }
-
-        .orb-2 {
-            width: 480px; height: 480px;
-            background: var(--text-main);
-            animation: moveOrb2 38s infinite alternate cubic-bezier(0.37, 0, 0.63, 1);
-            opacity: 0.08;
-        }
+        .orb-1 { width: 400px; height: 400px; background: var(--accent); animation: moveOrb1 32s infinite alternate cubic-bezier(0.37, 0, 0.63, 1); }
+        .orb-2 { width: 480px; height: 480px; background: var(--text-main); animation: moveOrb2 38s infinite alternate cubic-bezier(0.37, 0, 0.63, 1); opacity: 0.08; }
 
         @keyframes moveOrb1 {
             0% { transform: translate(-10%, -10%) scale(1); }
             50% { transform: translate(70vw, 30vh) scale(1.2); }
             100% { transform: translate(30vw, 80vh) scale(0.9); }
         }
-
         @keyframes moveOrb2 {
             0% { transform: translate(75vw, 60vh) scale(0.9); }
             50% { transform: translate(15vw, 20vh) scale(1.15); }
@@ -98,62 +76,52 @@
             display: flex; flex-direction: column; gap: 8px;
         }
         .toast {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
+            background: var(--card-bg); backdrop-filter: blur(20px);
             color: var(--text-main); padding: 10px 16px; border-radius: 12px;
-            font-size: 0.78rem; font-weight: 500;
-            border: 1px solid var(--border-color);
+            font-size: 0.78rem; font-weight: 500; border: 1px solid var(--border-color);
             box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-            animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.2s forwards;
+            animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1), fadeOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) 2.2s forwards;
         }
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         @keyframes fadeOut { to { opacity: 0; transform: translateY(-10px); } }
 
-        /* ANIMASI TOMBOL INTERAKTIF & HIDUP (Gak Flat) */
+        /* Smooth & Fluid Button Animations */
         button {
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
+            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative; overflow: hidden;
         }
         button:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px var(--accent-glow);
-            filter: brightness(1.08);
+            filter: brightness(1.06);
         }
         button:active {
-            transform: scale(0.94) translateY(0);
-            box-shadow: none;
-            filter: brightness(0.95);
+            transform: scale(0.95) translateY(0);
+            box-shadow: 0 2px 8px var(--accent-glow);
+            filter: brightness(0.96);
         }
 
-        /* 1. AUTH SECTION */
-        .auth-container {
-            display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; padding: 16px;
-        }
+        .auth-container { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 16px; }
         .auth-card {
-            background: var(--card-bg);
-            backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--border-color);
-            width: 100%; max-width: 380px; padding: 30px;
-            border-radius: 24px; box-shadow: 0 12px 40px rgba(0,0,0,0.25);
-            text-align: center;
+            background: var(--card-bg); backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-color); width: 100%; max-width: 380px; padding: 30px;
+            border-radius: 24px; box-shadow: 0 12px 40px rgba(0,0,0,0.25); text-align: center;
+            animation: fadeInScale 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .store-title {
-            font-size: 1.7rem; font-weight: 700; letter-spacing: -0.5px;
-            margin-bottom: 4px; color: var(--text-main);
-        }
+        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+        .store-title { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 4px; color: var(--text-main); }
         .store-subtitle { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 20px; }
         .auth-step { display: none; }
-        .auth-step.active { display: block; }
+        .auth-step.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         input, select {
             width: 100%; padding: 11px 14px; margin-bottom: 12px;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px; color: var(--text-main);
-            font-size: 0.88rem; outline: none; transition: all 0.2s;
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 12px; color: var(--text-main); font-size: 0.88rem; outline: none;
+            transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
         input:focus, select:focus {
             border-color: var(--accent);
@@ -162,98 +130,71 @@
         select option { background: var(--bg-main); color: var(--text-main); }
 
         .btn-accent {
-            width: 100%; padding: 11px;
-            background: var(--accent);
+            width: 100%; padding: 11px; background: var(--accent);
             color: #fff; border: none; border-radius: 12px;
             font-weight: 600; font-size: 0.88rem;
             box-shadow: 0 4px 15px var(--accent-glow);
         }
 
-        .password-strength-meter {
-            height: 5px; border-radius: 3px; background: var(--border-color);
-            margin-bottom: 6px; overflow: hidden;
-        }
+        .password-strength-meter { height: 5px; border-radius: 3px; background: var(--border-color); margin-bottom: 6px; overflow: hidden; }
         .password-strength-fill { height: 100%; width: 0%; transition: width 0.3s, background 0.3s; }
         .strength-text { font-size: 0.72rem; text-align: left; margin-bottom: 12px; font-weight: 500; color: var(--text-muted); }
 
-        /* 2. LANDING PAGE STYLE */
-        #landing-section {
-            width: 100%; min-height: 100vh; padding: 20px 16px 60px 16px;
-            display: flex; flex-direction: column; align-items: center;
-        }
-        .landing-wrapper {
-            width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 30px;
-        }
-        .landing-nav {
-            display: flex; justify-content: space-between; align-items: center;
-            width: 100%; padding: 10px 0; border-bottom: 1px solid var(--border-color);
-        }
+        #landing-section { width: 100%; min-height: 100vh; padding: 20px 16px 60px 16px; display: flex; flex-direction: column; align-items: center; }
+        .landing-wrapper { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 24px; animation: fadeIn 0.4s ease; }
+        .landing-nav { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 10px 0; border-bottom: 1px solid var(--border-color); }
         .landing-brand { font-size: 1rem; font-weight: 700; color: var(--accent); letter-spacing: -0.5px; }
         .landing-nav-links { display: flex; gap: 12px; font-size: 0.75rem; color: var(--text-muted); }
-        .landing-nav-links span { cursor: pointer; }
+        .landing-nav-links span { cursor: pointer; transition: color 0.2s; }
         .landing-nav-links span:hover { color: var(--text-main); }
 
-        .landing-hero {
-            text-align: center; padding: 20px 0; display: flex; flex-direction: column; align-items: center; gap: 12px;
-        }
-        .badge-pill {
-            background: var(--accent-glow); border: 1px solid var(--accent);
-            padding: 4px 14px; border-radius: 20px; font-size: 0.7rem; color: var(--accent); font-weight: 600;
-        }
+        .landing-hero { text-align: center; padding: 16px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .badge-pill { background: var(--accent-glow); border: 1px solid var(--accent); padding: 4px 14px; border-radius: 20px; font-size: 0.7rem; color: var(--accent); font-weight: 600; }
         .landing-hero h1 { font-size: 2rem; font-weight: 700; letter-spacing: -0.5px; line-height: 1.2; }
         .landing-hero h1 span { color: var(--accent); }
         .landing-hero p { font-size: 0.82rem; color: var(--text-muted); max-width: 440px; line-height: 1.5; }
 
-        .hero-buttons { display: flex; gap: 10px; margin-top: 6px; }
-        .btn-outline-accent {
-            background: transparent; border: 1px solid var(--border-color); color: var(--text-main);
-            padding: 8px 16px; border-radius: 12px; font-size: 0.78rem; font-weight: 500;
-        }
-        .btn-outline-accent:hover { border-color: var(--accent); background: var(--accent-glow); }
+        .hero-buttons { display: flex; gap: 10px; margin-top: 4px; width: 100%; max-width: 220px; }
 
         .landing-box {
             background: var(--card-bg); backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--border-color); border-radius: 20px; padding: 24px;
+            border: 1px solid var(--border-color); border-radius: 20px; padding: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
         }
-        .landing-box h2 { font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.3px; }
-        .landing-box p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 10px; }
+        .landing-box h2 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.3px; }
+        .landing-box p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 8px; }
 
-        /* Best Seller Grid di Portfolio */
-        .best-seller-section h3 { font-size: 1rem; font-weight: 700; margin-bottom: 12px; color: var(--text-main); }
-        .best-seller-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
-        }
+        .best-seller-section h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; color: var(--text-main); }
+        .best-seller-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
         @media(max-width: 480px) { .best-seller-grid { grid-template-columns: 1fr; } }
 
         .bs-card {
             background: var(--card-bg); border: 1px solid var(--border-color);
             border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; cursor: pointer;
+            transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s;
         }
+        .bs-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px var(--accent-glow); }
         .bs-img { width: 100%; height: 110px; object-fit: cover; }
-        .bs-content { padding: 12px; display: flex; flex-direction: column; gap: 4px; }
-        .bs-content h4 { font-size: 0.84rem; font-weight: 600; color: var(--text-main); }
+        .bs-content { padding: 10px; display: flex; flex-direction: column; gap: 3px; }
+        .bs-content h4 { font-size: 0.82rem; font-weight: 600; color: var(--text-main); }
         .bs-content p { font-size: 0.68rem; color: var(--text-muted); line-height: 1.3; }
 
-        /* 3. MAIN APP SECTION */
-        #app-section { display: flex; flex-direction: column; min-height: 100vh; }
+        #app-section { display: flex; flex-direction: column; min-height: 100vh; animation: fadeIn 0.4s ease; }
 
         .store-header {
-            background: var(--card-bg);
-            backdrop-filter: var(--glass-blur);
+            background: var(--card-bg); backdrop-filter: var(--glass-blur);
             position: sticky; top: 0; z-index: 100;
             display: flex; justify-content: space-between; align-items: center;
-            padding: 8px 16px; border-bottom: 1px solid var(--border-color);
+            padding: 10px 16px; border-bottom: 1px solid var(--border-color);
         }
-        .brand-area h2 { font-size: 0.92rem; font-weight: 600; color: var(--text-main); }
-        .brand-area p { font-size: 0.62rem; color: var(--text-muted); }
+        .brand-area h2 { font-size: 0.95rem; font-weight: 700; color: var(--text-main); letter-spacing: -0.3px; }
+        .brand-area p { font-size: 0.65rem; color: var(--text-muted); }
 
         .nav-actions { display: flex; align-items: center; gap: 4px; }
         .btn-icon-minimal {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-main); padding: 5px 9px;
-            border-radius: 10px; font-size: 0.7rem; font-weight: 500;
-            display: flex; align-items: center; gap: 3px; white-space: nowrap;
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            color: var(--text-main); padding: 5px 9px; border-radius: 10px;
+            font-size: 0.7rem; font-weight: 500; display: flex; align-items: center; gap: 3px; white-space: nowrap;
         }
         .btn-icon-minimal:hover { border-color: var(--accent); background: var(--accent-glow); }
         .btn-icon-minimal svg { width: 12px; height: 12px; fill: currentColor; }
@@ -261,21 +202,22 @@
         .main-container { max-width: 900px; margin: 20px auto; padding: 0 16px; flex-grow: 1; width: 100%; }
         .greeting-banner { font-size: 1.15rem; font-weight: 600; margin-bottom: 14px; letter-spacing: -0.3px; }
 
-        .category-tabs { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 18px; padding-bottom: 4px; }
+        .category-tabs { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 18px; padding-bottom: 4px; scrollbar-width: none; }
+        .category-tabs::-webkit-scrollbar { display: none; }
         .cat-tab {
             background: var(--card-bg); border: 1px solid var(--border-color);
             padding: 5px 12px; border-radius: 16px; font-size: 0.75rem; font-weight: 500;
             cursor: pointer; white-space: nowrap; color: var(--text-muted);
+            transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
-        .cat-tab.active, .cat-tab:hover {
-            background: var(--accent); color: #fff; border-color: var(--accent);
-        }
+        .cat-tab.active, .cat-tab:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
 
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
         .product-card {
             background: var(--card-bg); backdrop-filter: blur(20px);
             border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden;
-            display: flex; flex-direction: column; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+            display: flex; flex-direction: column; cursor: pointer;
+            transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s;
         }
         .product-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px var(--accent-glow); }
 
@@ -294,7 +236,6 @@
         .product-desc { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 6px; flex-grow: 1; line-height: 1.3; }
         .product-price { font-size: 0.82rem; font-weight: 600; color: var(--accent); }
 
-        /* Dashboard Profil Profesional & Pengaturan Tema/Warna Aksen */
         .dashboard-container {
             background: var(--card-bg); backdrop-filter: var(--glass-blur);
             border: 1px solid var(--border-color); border-radius: 20px; padding: 20px;
@@ -305,52 +246,48 @@
             border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 16px;
         }
         .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 18px; }
-        .dash-card {
-            background: var(--card-bg); border: 1px solid var(--border-color); padding: 12px; border-radius: 12px;
-        }
+        .dash-card { background: var(--card-bg); border: 1px solid var(--border-color); padding: 12px; border-radius: 12px; }
         .dash-card span { font-size: 0.7rem; color: var(--text-muted); display: block; margin-bottom: 3px; }
         .dash-card strong { font-size: 0.95rem; color: var(--text-main); }
 
-        /* Panel Pengaturan Tampilan & Warna Aksen */
-        .settings-panel {
-            border-top: 1px solid var(--border-color); padding-top: 16px; margin-top: 16px;
-        }
+        .settings-panel { border-top: 1px solid var(--border-color); padding-top: 16px; margin-top: 16px; }
         .settings-panel h4 { font-size: 0.84rem; font-weight: 600; margin-bottom: 10px; color: var(--text-main); }
         
         .mode-toggle-group { display: flex; gap: 8px; margin-bottom: 14px; }
         .mode-btn {
             flex: 1; padding: 8px; border-radius: 10px; border: 1px solid var(--border-color);
             background: var(--card-bg); color: var(--text-main); font-size: 0.75rem; font-weight: 500; cursor: pointer; text-align: center;
+            transition: all 0.2s;
         }
         .mode-btn.active { border-color: var(--accent); background: var(--accent-glow); color: var(--accent); font-weight: 600; }
 
-        .color-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 8px; margin-bottom: 16px;
-        }
+        .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 8px; margin-bottom: 16px; }
         .color-option {
             display: flex; align-items: center; gap: 6px; padding: 6px 8px;
             background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px;
             cursor: pointer; font-size: 0.7rem; font-weight: 500; color: var(--text-main);
+            transition: all 0.2s;
         }
         .color-option.selected { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
         .color-swatch { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
 
-        .password-change-box {
-            background: var(--card-bg); border: 1px solid var(--border-color); padding: 14px; border-radius: 12px; max-width: 400px;
-        }
+        .password-change-box { background: var(--card-bg); border: 1px solid var(--border-color); padding: 14px; border-radius: 12px; max-width: 400px; }
 
-        /* Modals */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px);
             display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 16px;
+            animation: fadeIn 0.2s ease;
         }
         .modal-content {
             background: var(--card-bg); backdrop-filter: blur(30px);
             border: 1px solid var(--border-color); width: 100%; max-width: 380px;
             border-radius: 20px; padding: 20px; max-height: 90vh; overflow-y: auto;
             box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
+        @keyframes scaleUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
         .modal-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
         .modal-top h3 { font-size: 0.92rem; font-weight: 600; }
         .btn-close { background: none; border: none; font-size: 1.1rem; cursor: pointer; color: var(--text-muted); }
@@ -359,7 +296,7 @@
         .type-option {
             background: var(--card-bg); border: 1px solid var(--border-color);
             padding: 9px 12px; border-radius: 10px; display: flex; justify-content: space-between;
-            align-items: center; cursor: pointer; font-size: 0.8rem;
+            align-items: center; cursor: pointer; font-size: 0.8rem; transition: all 0.2s;
         }
         .type-option.selected { border-color: var(--accent); background: var(--accent-glow); }
 
@@ -375,7 +312,6 @@
         .qris-image { width: 120px; height: 120px; background: #fff; padding: 4px; border-radius: 6px; margin-bottom: 6px; object-fit: contain; }
         .qris-instruction { font-size: 0.7rem; color: var(--text-main); margin-bottom: 6px; line-height: 1.3; }
 
-        /* Footer */
         .store-footer {
             border-top: 1px solid var(--border-color); background: var(--card-bg);
             backdrop-filter: var(--glass-blur); padding: 16px; margin-top: auto; text-align: center;
@@ -387,6 +323,7 @@
         .btn-contact {
             background: var(--card-bg); border: 1px solid var(--border-color);
             color: var(--text-main); padding: 4px 10px; border-radius: 8px; font-size: 0.7rem; text-decoration: none;
+            transition: all 0.2s;
         }
         .btn-contact:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
     </style>
@@ -448,7 +385,8 @@
             <div class="landing-hero">
                 <span class="badge-pill">Official Store Preview</span>
                 <h1>Hey! , I am <span id="landing-owner-title">Ryy</span></h1>
-                <p id="landing-store-desc">Minimalist Selection & Premium Tech Provider</p>
+                <!-- Slogan di atas tombol Lihat Produk -->
+                <p id="landing-slogan-text">Memuat slogan...</p>
                 <div class="hero-buttons">
                     <button onclick="enterStoreCatalog()" class="btn-accent">Lihat Produk</button>
                 </div>
@@ -461,7 +399,7 @@
                 <p><strong>Total Pembeli:</strong> <span id="landing-buyers">-</span></p>
             </div>
 
-            <!-- Bagian Best Seller (Sesuai Permintaan) -->
+            <!-- Bagian Best Seller (Langsung Buka Modal Varian/Checkout saat Diklik) -->
             <div class="best-seller-section">
                 <h3>⭐ Best Seller Produk</h3>
                 <div id="best-seller-grid" class="best-seller-grid"></div>
@@ -474,7 +412,8 @@
         <header class="store-header">
             <div class="brand-area">
                 <h2 id="store-name-display">RYY STORE</h2>
-                <p id="store-desc-display">Minimalist Selection</p>
+                <!-- Slogan singkat di header utama -->
+                <p id="store-slogan-display">Minimalist Selection</p>
             </div>
             <div class="nav-actions">
                 <button onclick="backToLanding()" class="btn-icon-minimal">Tentang</button>
@@ -484,19 +423,16 @@
                     <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
                     (<span id="cart-count">0</span>)
                 </button>
-                <button onclick="logout()" class="btn-icon-minimal">Keluar</button>
             </div>
         </header>
 
         <main class="main-container">
-            <!-- VIEW KATALOG -->
             <div id="view-catalog">
                 <h2 id="greeting-banner" class="greeting-banner">Selamat Pagi @user</h2>
                 <div id="category-tabs" class="category-tabs"></div>
                 <div id="product-grid" class="product-grid"></div>
             </div>
 
-            <!-- VIEW PROFIL & PENGATURAN TEMA/WARNA AKSEN -->
             <div id="view-profile" class="hidden">
                 <div class="dashboard-container">
                     <div class="dashboard-header">
@@ -519,7 +455,6 @@
                         </div>
                     </div>
 
-                    <!-- Panel Pengaturan Mode & Warna Aksen -->
                     <div class="settings-panel">
                         <h4>Pengaturan Tampilan & Warna Aksen</h4>
                         
@@ -694,7 +629,7 @@
 
         function initLandingPageInfo() {
             document.getElementById("landing-store-name").innerText = storeData.storeInfo.name.toLowerCase();
-            document.getElementById("landing-store-desc").innerText = storeData.storeInfo.description;
+            document.getElementById("landing-slogan-text").innerText = storeData.storeInfo.slogan;
             document.getElementById("landing-owner-title").innerText = storeData.storeInfo.owner;
             document.getElementById("landing-owner").innerText = storeData.storeInfo.owner;
             document.getElementById("landing-since").innerText = storeData.storeInfo.operatingSince;
@@ -711,8 +646,9 @@
             const bestSellers = storeData.products.filter(p => p.bestSeller);
 
             bestSellers.forEach(product => {
+                // Ketika best seller dipencet, langsung buka modal detail produk (pilih tipe -> checkout)
                 grid.innerHTML += `
-                    <div class="bs-card" onclick="enterStoreCatalog()">
+                    <div class="bs-card" onclick="openProductDetailFromPortfolio(${product.id})">
                         <img src="${product.image}" alt="${product.name}" class="bs-img">
                         <div class="bs-content">
                             <h4>${product.name}</h4>
@@ -721,6 +657,15 @@
                     </div>
                 `;
             });
+        }
+
+        // Fungsi khusus agar dari portfolio bisa langsung masuk ke modal detail & checkout
+        function openProductDetailFromPortfolio(productId) {
+            localStorage.setItem("has_seen_landing", "true");
+            document.getElementById("landing-section").classList.add("hidden");
+            document.getElementById("app-section").classList.remove("hidden");
+            launchApp();
+            openProductDetail(productId);
         }
 
         function showToast(message) {
@@ -766,7 +711,7 @@
 
         function launchApp() {
             document.getElementById("store-name-display").innerText = storeData.storeInfo.name;
-            document.getElementById("store-desc-display").innerText = storeData.storeInfo.description;
+            document.getElementById("store-slogan-display").innerText = storeData.storeInfo.slogan;
             renderCategories();
             renderProducts("Semua");
             setDynamicGreeting();
@@ -881,13 +826,6 @@
 
             showToast("Login Berhasil!");
             checkSessionState();
-        }
-
-        function logout() {
-            localStorage.removeItem("current_user");
-            localStorage.removeItem("has_seen_landing");
-            showToast("Logout Berhasil");
-            location.reload();
         }
 
         function setDynamicGreeting() {
