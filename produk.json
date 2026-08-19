@@ -1,32 +1,59 @@
 {
     "storeInfo": {
         "name": "RYY STORE",
-        "description": "Minimalist Selection"
+        "description": "Minimalist Selection & Premium Tech Provider",
+        "owner": "Eilyan Sander",
+        "operatingSince": "Maret 2025",
+        "totalBuyers": 927
     },
+    "categories": ["Semua", "iPhone", "iPad", "MacBook", "Accessories"],
     "products": [
         {
             "id": 1,
             "name": "MacBook Pro M3",
-            "price": 24999000,
-            "stock": 0,
-            "description": "Laptop super kencang dengan chip M3.",
-            "image": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&auto=format&fit=crop&q=60"
+            "category": "MacBook",
+            "stock": 6,
+            "description": "Laptop super kencang dengan chip M3 dan layar Retina berkualitas tinggi.",
+            "image": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&auto=format&fit=crop&q=60",
+            "types": [
+                { "typeName": "8GB / 512GB", "price": 24999000 },
+                { "typeName": "16GB / 1TB", "price": 29999000 }
+            ]
         },
         {
             "id": 2,
             "name": "iPhone 15 Pro",
-            "price": 18499000,
+            "category": "iPhone",
             "stock": 14,
-            "description": "Titanium design, chip A17 Pro.",
-            "image": "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=500&auto=format&fit=crop&q=60"
+            "description": "Titanium design, chip A17 Pro bertenaga, dan sistem kamera level pro.",
+            "image": "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=500&auto=format&fit=crop&q=60",
+            "types": [
+                { "typeName": "128GB - Natural Titanium", "price": 18499000 },
+                { "typeName": "256GB - Blue Titanium", "price": 21499000 }
+            ]
         },
         {
             "id": 3,
+            "name": "iPad Pro M4",
+            "category": "iPad",
+            "stock": 8,
+            "description": "Tablet tertipis dengan performa menakjubkan berkat chip Apple M4.",
+            "image": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=500&auto=format&fit=crop&q=60",
+            "types": [
+                { "typeName": "11 inch - 256GB Wi-Fi", "price": 16999000 },
+                { "typeName": "13 inch - 512GB Wi-Fi", "price": 22999000 }
+            ]
+        },
+        {
+            "id": 4,
             "name": "AirPods Pro Gen 2",
-            "price": 3999000,
-            "stock": 12,
-            "description": "Active Noise Cancellation imersif.",
-            "image": "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=500&auto=format&fit=crop&q=60"
+            "category": "Accessories",
+            "stock": 0,
+            "description": "Active Noise Cancellation imersif dan Spatial Audio personal.",
+            "image": "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=500&auto=format&fit=crop&q=60",
+            "types": [
+                { "typeName": "USB-C MagSafe Case", "price": 3999000 }
+            ]
         }
     ]
 }
