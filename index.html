@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Store - Premium Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h2>Selamat Datang</h2>
+                <p>Masuk untuk melanjutkan</p>
+            </div>
+            <div class="login-tabs">
+                <button class="tab-btn active" onclick="switchTab('email')">Email</button>
+                <button class="tab-btn" onclick="switchTab('phone')">Nomor HP</button>
+            </div>
+            <div id="emailLogin" class="login-form">
+                <input type="email" id="loginEmail" placeholder="Email Anda" required>
+                <button class="btn-primary" onclick="sendOTP('email')">Kirim OTP</button>
+            </div>
+            <div id="phoneLogin" class="login-form" style="display:none">
+                <input type="tel" id="loginPhone" placeholder="Nomor HP (08xx)" required>
+                <button class="btn-primary" onclick="sendOTP('phone')">Kirim OTP</button>
+            </div>
+            <div id="otpSection" style="display:none">
+                <input type="text" id="otpInput" placeholder="Masukkan 6 digit OTP" maxlength="6">
+                <button class="btn-primary" onclick="verifyOTP()">Verifikasi</button>
+            </div>
+            <div class="divider">atau</div>
+            <button class="btn-google" onclick="googleLogin()">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+                Lanjutkan dengan Google
+            </button>
+        </div>
+    </div>
+
+    <!-- Username Setup Modal -->
+    <div id="usernameModal" class="modal" style="display:none">
+        <div class="modal-content glass">
+            <h2>Pilih Username</h2>
+            <p>Username akan menjadi identitas Anda di toko ini</p>
+            <input type="text" id="usernameInput" placeholder="Username (min. 3 karakter)" required>
+            <p id="usernameError" class="error-text"></p>
+            <button class="btn-primary" onclick="setUsername()">Lanjutkan</button>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="mainApp" style="display:none">
+        <!-- Navbar -->
+        <nav class="navbar glass">
+            <div class="nav-brand">
+                <span class="logo">🍎</span>
+                <span>Apple Store</span>
+            </div>
+            <div class="nav-links">
+                <a href="#products">Produk</a>
+                <a href="#about">Tentang</a>
+            </div>
+            <div class="nav-actions">
+                <button class="cart-btn" onclick="toggleCart()">
+                    🛒 <span id="cartCount">0</span>
+                </button>
+                <div class="user-menu">
+                    <span id="userDisplay">👤</span>
+                    <div class="dropdown">
+                        <a onclick="logout()">Keluar</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Selamat Datang di Apple Store</h1>
+            <p>Produk premium dengan kualitas terbaik</p>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products" class="products-section">
+            <h2>Produk Kami</h2>
+            <div id="productsGrid" class="products-grid"></div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about-section">
+            <h2>Tentang Toko Kami</h2>
+            <p>Apple Store adalah toko online terpercaya yang menyediakan berbagai produk berkualitas dengan harga terjangkau.</p>
+        </section>
+
+        <!-- Cart Sidebar -->
+        <div id="cartSidebar" class="cart-sidebar">
+            <div class="cart-header">
+                <h3>Keranjang Belanja</h3>
+                <button class="close-btn" onclick="toggleCart()">×</button>
+            </div>
+            <div id="cartItems" class="cart-items"></div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cartTotal">Rp0</span>
+                </div>
+                <button class="btn-checkout" onclick="openCheckout()">Checkout</button>
+            </div>
+        </div>
+
+        <!-- Checkout Modal -->
+        <div id="checkoutModal" class="modal" style="display:none">
+            <div class="modal-content glass checkout-modal">
+                <h2>Checkout</h2>
+                <div id="checkoutItems"></div>
+                <div class="checkout-form">
+                    <label>Nomor WhatsApp Target</label>
+                    <input type="tel" id="targetPhone" placeholder="08xxxxxxxxxx" required>
+                    
+                    <label>Metode Pembayaran</label>
+                    <select id="paymentMethod" required>
+                        <option value="">Pilih Metode</option>
+                        <option value="QRIS">QRIS</option>
+                        <option value="DANA">DANA</option>
+                        <option value="GOPAY">GOPAY</option>
+                        <option value="SHOPEEPAY">SHOPEEPAY</option>
+                        <option value="OVO">OVO</option>
+                    </select>
+                    
+                    <div class="checkout-total">
+                        <span>Total Pembayaran:</span>
+                        <span id="checkoutTotal">Rp0</span>
+                    </div>
+                    
+                    <button class="btn-primary" onclick="processCheckout()">Buat Pesanan via WhatsApp</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
