@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RYY DIGITAL STORE</title>
+    <title>RYY STORE — Minimalist Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f5f5f7;
-            --card-bg: #ffffff;
+            --bg-color: rgba(245, 245, 247, 0.85);
+            --card-bg: rgba(255, 255, 255, 0.75);
             --text-main: #1d1d1f;
             --text-muted: #86868b;
-            --border-color: #d2d2d7;
+            --border-color: rgba(210, 210, 215, 0.6);
             --accent-dark: #000000;
-            --accent-gray: #e8e8ed;
+            --accent-gray: rgba(232, 232, 237, 0.8);
+            --glass-blur: blur(25px);
         }
 
         * {
@@ -24,7 +25,7 @@
         }
 
         body {
-            background-color: var(--bg-color);
+            background: linear-gradient(135deg, #f5f5f7 0%, #e1e1e6 100%);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -36,53 +37,133 @@
             display: none !important;
         }
 
-        /* Compact Apple Auth */
+        /* Notifikasi Toast */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .toast {
+            background: rgba(29, 29, 31, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.2s forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; transform: translateY(-10px); }
+        }
+
+        /* Landing Page / Perkenalan Toko */
+        #landing-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .landing-card {
+            background: var(--card-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-color);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            text-align: center;
+        }
+
+        .store-title {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+            color: var(--accent-dark);
+        }
+
+        .store-desc-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            line-height: 1.4;
+        }
+
+        .store-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid var(--border-color);
+            padding: 14px;
+            border-radius: 14px;
+            text-align: center;
+        }
+
+        .stat-box h4 {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .stat-box p {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--accent-dark);
+        }
+
+        /* Auth Container */
         .auth-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             padding: 16px;
         }
 
         .auth-card {
             background: var(--card-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-color);
             width: 100%;
-            max-width: 380px;
+            max-width: 400px;
             padding: 32px;
             border-radius: 20px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.05);
             text-align: center;
         }
 
-        .store-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            margin-bottom: 4px;
-            color: var(--accent-dark);
-        }
-
-        .store-subtitle {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-bottom: 24px;
-        }
-
-        .auth-step {
-            display: none;
-        }
-
-        .auth-step.active {
-            display: block;
-        }
+        .auth-step { display: none; }
+        .auth-step.active { display: block; }
 
         input, select {
             width: 100%;
             padding: 12px 14px;
             margin-bottom: 12px;
-            background: var(--bg-color);
+            background: rgba(255, 255, 255, 0.6);
             border: 1px solid var(--border-color);
             border-radius: 10px;
             color: var(--text-main);
@@ -94,10 +175,6 @@
         input:focus, select:focus {
             border-color: var(--accent-dark);
             background: #fff;
-        }
-
-        input::placeholder {
-            color: var(--text-muted);
         }
 
         .btn-black {
@@ -113,21 +190,36 @@
             transition: opacity 0.2s;
         }
 
-        .btn-black:hover {
-            opacity: 0.85;
+        .btn-black:hover { opacity: 0.85; }
+
+        .password-strength-meter {
+            height: 6px;
+            border-radius: 3px;
+            background: var(--border-color);
+            margin-bottom: 12px;
+            overflow: hidden;
+            position: relative;
         }
 
-        .info-text {
-            font-size: 0.8rem;
+        .password-strength-fill {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s, background 0.3s;
+        }
+
+        .strength-text {
+            font-size: 0.75rem;
+            text-align: left;
+            margin-bottom: 12px;
+            font-weight: 500;
             color: var(--text-muted);
-            margin-bottom: 10px;
         }
 
-        /* Compact Header */
+        /* Glass Header */
         .store-header {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -138,25 +230,14 @@
             border-bottom: 1px solid var(--border-color);
         }
 
-        .brand-area h2 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--accent-dark);
-        }
+        .brand-area h2 { font-size: 1.1rem; font-weight: 600; color: var(--accent-dark); }
+        .brand-area p { font-size: 0.7rem; color: var(--text-muted); }
 
-        .brand-area p {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .nav-actions { display: flex; align-items: center; gap: 8px; }
 
         .btn-icon-minimal {
             background: var(--accent-gray);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--border-color);
             color: var(--text-main);
             padding: 6px 12px;
@@ -170,19 +251,12 @@
             transition: background 0.2s;
         }
 
-        .btn-icon-minimal:hover {
-            background: var(--border-color);
-        }
+        .btn-icon-minimal:hover { background: var(--border-color); }
+        .btn-icon-minimal svg { width: 14px; height: 14px; fill: currentColor; }
 
-        .btn-icon-minimal svg {
-            width: 14px;
-            height: 14px;
-            fill: currentColor;
-        }
-
-        /* Main Content & Compact Grid */
+        /* Main Container & Layout */
         .main-container {
-            max-width: 900px;
+            max-width: 950px;
             margin: 24px auto;
             padding: 0 16px;
             flex-grow: 1;
@@ -192,15 +266,36 @@
         .greeting-banner {
             font-size: 1.25rem;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             letter-spacing: -0.3px;
         }
 
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-            letter-spacing: -0.2px;
+        /* Category Filter Tabs */
+        .category-tabs {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            padding-bottom: 4px;
+        }
+
+        .cat-tab {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .cat-tab.active, .cat-tab:hover {
+            background: var(--accent-dark);
+            color: #fff;
+            border-color: var(--accent-dark);
         }
 
         .product-grid {
@@ -211,34 +306,31 @@
 
         .product-card {
             background: var(--card-bg);
+            backdrop-filter: blur(15px);
             border: 1px solid var(--border-color);
             border-radius: 16px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             position: relative;
+            cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .product-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
         }
 
         .product-img-wrapper {
             position: relative;
             width: 100%;
             height: 150px;
-            background: #f0f0f2;
+            background: rgba(240, 240, 242, 0.5);
         }
 
-        .product-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .product-img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Stock Badge */
         .badge-stock {
             position: absolute;
             top: 10px;
@@ -248,314 +340,198 @@
             font-size: 0.7rem;
             font-weight: 600;
             color: #fff;
-            backdrop-filter: blur(4px);
+        }
+        .badge-ready { background: rgba(40, 167, 69, 0.9); }
+        .badge-sold { background: rgba(220, 53, 69, 0.9); }
+
+        .product-info { padding: 14px; display: flex; flex-direction: column; flex-grow: 1; }
+        .product-name { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
+        .product-desc { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 10px; flex-grow: 1; line-height: 1.3; }
+        .product-price { font-size: 0.9rem; font-weight: 600; color: var(--accent-dark); }
+
+        /* Professional Dashboard Profil */
+        .dashboard-container {
+            background: var(--card-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+            margin-bottom: 30px;
         }
 
-        .badge-ready {
-            background: rgba(40, 167, 69, 0.9);
-        }
-
-        .badge-sold {
-            background: rgba(220, 53, 69, 0.9);
-        }
-
-        .product-info {
-            padding: 14px;
+        .dashboard-header {
             display: flex;
-            flex-direction: column;
-            flex-grow: 1;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
         }
 
-        .product-name {
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 4px;
+        .dashboard-header h3 { font-size: 1.1rem; font-weight: 600; }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
         }
 
-        .product-desc {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-bottom: 10px;
-            flex-grow: 1;
-            line-height: 1.3;
+        .dash-card {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            border-radius: 14px;
         }
 
-        .product-price {
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--accent-dark);
+        .dash-card span { font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px; }
+        .dash-card strong { font-size: 1.1rem; color: var(--accent-dark); }
+
+        .password-change-box {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            border-radius: 14px;
+            max-width: 450px;
         }
 
-        .btn-add {
-            background: var(--accent-dark);
-            color: #fff;
-            border: none;
-            padding: 8px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
+        .password-change-box h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 10px; }
 
-        .btn-add:hover {
-            opacity: 0.85;
-        }
-
-        .btn-add:disabled {
-            background: var(--border-color);
-            color: var(--text-muted);
-            cursor: not-allowed;
-            opacity: 1;
-        }
-
-        /* Modal Overlays */
+        /* Modals Glass */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(4px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 16px;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; padding: 16px;
         }
 
         .modal-content {
-            background: var(--card-bg);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
             border: 1px solid var(--border-color);
-            width: 100%;
-            max-width: 400px;
-            border-radius: 20px;
-            padding: 20px;
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%; max-width: 420px;
+            border-radius: 20px; padding: 24px;
+            max-height: 90vh; overflow-y: auto;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
         }
 
-        .modal-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 8px;
-        }
+        .modal-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        .modal-top h3 { font-size: 1rem; font-weight: 600; }
+        .btn-close { background: none; border: none; font-size: 1.25rem; cursor: pointer; color: var(--text-muted); }
 
-        .modal-top h3 {
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        .btn-close {
-            background: none;
-            border: none;
-            font-size: 1.25rem;
-            cursor: pointer;
-            color: var(--text-muted);
-        }
-
-        /* Profile Modal List */
-        .profile-info-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-
-        .profile-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 12px;
-            background: var(--bg-color);
-            border-radius: 10px;
+        .type-select-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+        .type-option {
+            background: rgba(255,255,255,0.6);
             border: 1px solid var(--border-color);
-            font-size: 0.85rem;
+            padding: 10px 14px; border-radius: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; transition: all 0.2s;
         }
+        .type-option input { width: auto; margin: 0; }
+        .type-option.selected { border-color: var(--accent-dark); background: #fff; }
 
-        .profile-row span:first-child {
-            color: var(--text-muted);
-        }
+        .cart-list { max-height: 160px; overflow-y: auto; margin-bottom: 12px; }
+        .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border-color); }
+        .cart-row-info h4 { font-size: 0.85rem; font-weight: 500; }
+        .cart-row-info p { font-size: 0.75rem; color: var(--text-muted); }
+        .btn-del { background: rgba(255, 59, 48, 0.1); color: #ff3b30; border: none; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; cursor: pointer; }
 
-        .profile-row span:last-child {
-            font-weight: 600;
-        }
+        .total-row { display: flex; justify-content: space-between; font-size: 0.95rem; font-weight: 600; margin-bottom: 12px; }
 
-        /* Cart List & Checkout */
-        .cart-list {
-            max-height: 140px;
-            overflow-y: auto;
-            margin-bottom: 12px;
-            padding-right: 4px;
-        }
+        .qris-panel { text-align: center; background: rgba(255,255,255,0.5); border: 1px solid var(--border-color); padding: 12px; border-radius: 12px; margin-top: 8px; }
+        .qris-image { width: 140px; height: 140px; background: #fff; padding: 6px; border-radius: 8px; margin-bottom: 8px; object-fit: contain; }
+        .qris-instruction { font-size: 0.75rem; color: var(--text-main); margin-bottom: 8px; line-height: 1.3; }
 
-        .cart-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--bg-color);
-        }
-
-        .cart-row-info h4 {
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .cart-row-info p {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .btn-del {
-            background: rgba(255, 59, 48, 0.1);
-            color: #ff3b30;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 0.7rem;
-            cursor: pointer;
-        }
-
-        .checkout-box {
-            border-top: 1px solid var(--border-color);
-            padding-top: 12px;
-        }
-
-        .total-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .form-group label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .form-group input, .form-group select {
-            margin-bottom: 10px;
-        }
-
-        /* QRIS Panel */
-        .qris-panel {
-            text-align: center;
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            padding: 12px;
-            border-radius: 12px;
-            margin-top: 8px;
-        }
-
-        .qris-image {
-            width: 150px;
-            height: 150px;
-            background: #fff;
-            padding: 6px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            object-fit: contain;
-        }
-
-        .qris-instruction {
-            font-size: 0.75rem;
-            color: var(--text-main);
-            margin-bottom: 8px;
-            line-height: 1.3;
-        }
-
-        /* Footer */
+        /* Footer Glass */
         .store-footer {
             border-top: 1px solid var(--border-color);
-            background: var(--card-bg);
-            padding: 24px 16px;
-            margin-top: 40px;
-            text-align: center;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: var(--glass-blur);
+            padding: 24px 16px; margin-top: auto; text-align: center;
         }
-
-        .footer-content {
-            max-width: 900px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .footer-copy {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .contact-title {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-main);
-        }
-
-        .contact-buttons {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
+        .footer-content { max-width: 950px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; align-items: center; }
+        .footer-copy { font-size: 0.8rem; color: var(--text-muted); }
+        .contact-title { font-size: 0.85rem; font-weight: 600; }
+        .contact-buttons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
         .btn-contact {
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            text-decoration: none;
+            background: rgba(255,255,255,0.7); border: 1px solid var(--border-color);
+            color: var(--text-main); padding: 6px 14px; border-radius: 8px; font-size: 0.75rem; text-decoration: none;
             transition: all 0.2s;
         }
-
-        .btn-contact:hover {
-            background: var(--accent-dark);
-            color: #fff;
-            border-color: var(--accent-dark);
-        }
+        .btn-contact:hover { background: var(--accent-dark); color: #fff; border-color: var(--accent-dark); }
     </style>
 </head>
 <body>
 
-    <!-- AUTH SECTION -->
-    <div id="auth-section" class="auth-container">
+    <div id="toast-container"></div>
+
+    <!-- 1. LANDING PAGE (PERKENALAN TOKO) -->
+    <div id="landing-section">
+        <div class="landing-card">
+            <h1 id="landing-store-name" class="store-title">RYY STORE</h1>
+            <p id="landing-store-desc" class="store-desc-text">Minimalist Selection & Premium Tech Provider</p>
+            
+            <div class="store-stats-grid">
+                <div class="stat-box">
+                    <h4>Owner Toko</h4>
+                    <p id="landing-owner">-</p>
+                </div>
+                <div class="stat-box">
+                    <h4>Beroperasi Sejak</h4>
+                    <p id="landing-since">-</p>
+                </div>
+            </div>
+            <div class="stat-box" style="margin-bottom: 24px;">
+                <h4>Total Pembeli Real</h4>
+                <p id="landing-buyers">-</p>
+            </div>
+
+            <button onclick="enterStore()" class="btn-black">Lihat Produk</button>
+        </div>
+    </div>
+
+    <!-- 2. AUTH SECTION -->
+    <div id="auth-section" class="auth-container hidden">
         <div class="auth-card">
             <h1 class="store-title">RYY STORE</h1>
-            <p class="store-subtitle">Masuk untuk mulai berbelanja</p>
+            <p class="store-subtitle" id="auth-subtitle">Masuk untuk mulai berbelanja</p>
             
             <div id="step-contact" class="auth-step active">
-                <input type="text" id="contact-input" placeholder="Nomor HP atau Email">
+                <select id="login-method" style="margin-bottom: 12px;">
+                    <option value="email">Gunakan Email (Terverifikasi)</option>
+                    <option value="phone">Gunakan Nomor Telepon</option>
+                </select>
+                <input type="text" id="contact-input" placeholder="Masukkan Email / Nomor HP">
                 <button onclick="sendOTP()" class="btn-black">Kirim OTP</button>
             </div>
 
             <div id="step-otp" class="auth-step">
-                <p class="info-text">Kode OTP (Cek Interface): <strong id="otp-display" style="color: var(--accent-dark);"></strong></p>
+                <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom: 10px;">Simulasi Kode OTP: <strong id="otp-display" style="color:var(--accent-dark);"></strong></p>
                 <input type="text" id="otp-input" placeholder="Masukkan 4 digit OTP">
                 <button onclick="verifyOTP()" class="btn-black">Verifikasi OTP</button>
             </div>
 
-            <div id="step-username" class="auth-step">
-                <input type="text" id="username-input" placeholder="Buat Username Unik">
-                <button onclick="saveUsername()" class="btn-black">Simpan & Masuk</button>
+            <div id="step-credentials" class="auth-step">
+                <input type="text" id="username-input" placeholder="Buat Username (Min 5 huruf)">
+                <input type="password" id="password-input" placeholder="Buat Password (Min 8 char: Huruf, Angka, Simbol)" oninput="checkPasswordStrength(this.value)">
+                
+                <div class="password-strength-meter">
+                    <div id="strength-fill" class="password-strength-fill"></div>
+                </div>
+                <p id="strength-text" class="strength-text">Keamanan: Rendah</p>
+                
+                <button onclick="registerAccount()" class="btn-black">Simpan & Masuk</button>
             </div>
         </div>
     </div>
 
-    <!-- MAIN APP SECTION -->
+    <!-- 3. MAIN APP SECTION -->
     <div id="app-section" class="hidden" style="display: flex; flex-direction: column; min-height: 100vh;">
         <header class="store-header">
             <div class="brand-area">
@@ -563,7 +539,8 @@
                 <p id="store-desc-display">Minimalist Selection</p>
             </div>
             <div class="nav-actions">
-                <button onclick="toggleProfile()" class="btn-icon-minimal">
+                <button onclick="switchView('catalog')" class="btn-icon-minimal">Katalog</button>
+                <button onclick="switchView('profile')" class="btn-icon-minimal">
                     <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
                     Profil
                 </button>
@@ -576,37 +553,64 @@
         </header>
 
         <main class="main-container">
-            <h2 id="greeting-banner" class="greeting-banner">Selamat Pagi @user</h2>
-            <h3 class="section-title">Katalog Produk</h3>
-            <div id="product-grid" class="product-grid"></div>
+            <!-- VIEW KATALOG -->
+            <div id="view-catalog">
+                <h2 id="greeting-banner" class="greeting-banner">Selamat Pagi @user</h2>
+                <div id="category-tabs" class="category-tabs"></div>
+                <div id="product-grid" class="product-grid"></div>
+            </div>
+
+            <!-- VIEW PROFIL (PROFESSIONAL DASHBOARD) -->
+            <div id="view-profile" class="hidden">
+                <div class="dashboard-container">
+                    <div class="dashboard-header">
+                        <h3>Dashboard Akun Profesional</h3>
+                        <span id="dash-username" style="font-weight: 600;">@username</span>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="dash-card">
+                            <span>Email / Kontak Terdaftar</span>
+                            <strong id="dash-email" style="font-size: 0.9rem;">-</strong>
+                        </div>
+                        <div class="dash-card">
+                            <span>Total Produk Dibeli</span>
+                            <strong id="dash-total-items">0 Item</strong>
+                        </div>
+                        <div class="dash-card">
+                            <span>Total Uang Dikeluarkan</span>
+                            <strong id="dash-total-spent">Rp0</strong>
+                        </div>
+                    </div>
+
+                    <div class="password-change-box">
+                        <h4>Ubah Kata Sandi</h4>
+                        <input type="password" id="old-password" placeholder="Kata Sandi Lama">
+                        <input type="password" id="new-password" placeholder="Kata Sandi Baru (Min 8 char: Huruf, Angka, Simbol)" oninput="checkNewPasswordStrength(this.value)">
+                        <div class="password-strength-meter">
+                            <div id="new-strength-fill" class="password-strength-fill"></div>
+                        </div>
+                        <p id="new-strength-text" class="strength-text">Keamanan: Rendah</p>
+                        <button onclick="changePassword()" class="btn-black">Perbarui Kata Sandi</button>
+                    </div>
+                </div>
+            </div>
         </main>
 
-        <!-- PROFILE MODAL -->
-        <div id="profile-modal" class="modal-overlay hidden">
+        <!-- PRODUCT DETAIL MODAL -->
+        <div id="product-detail-modal" class="modal-overlay hidden">
             <div class="modal-content">
                 <div class="modal-top">
-                    <h3>Profil Akun</h3>
-                    <button onclick="toggleProfile()" class="btn-close">&times;</button>
+                    <h3 id="modal-prod-name">Detail Produk</h3>
+                    <button onclick="toggleProductDetail()" class="btn-close">&times;</button>
                 </div>
-                <div class="profile-info-group">
-                    <div class="profile-row">
-                        <span>Username</span>
-                        <span id="prof-username">-</span>
-                    </div>
-                    <div class="profile-row">
-                        <span>Email</span>
-                        <span id="prof-email">-</span>
-                    </div>
-                    <div class="profile-row">
-                        <span>Total Produk Dibeli</span>
-                        <span id="prof-total-items">0 Item</span>
-                    </div>
-                    <div class="profile-row">
-                        <span>Total Uang Dikeluarkan</span>
-                        <span id="prof-total-spent">Rp0</span>
-                    </div>
-                </div>
-                <button onclick="toggleProfile()" class="btn-black">Tutup</button>
+                <img id="modal-prod-img" src="" alt="" style="width:100%; height:160px; object-fit:cover; border-radius:12px; margin-bottom:12px;">
+                <p id="modal-prod-desc" style="font-size:0.8rem; color:var(--text-muted); margin-bottom:14px; line-height:1.3;"></p>
+                
+                <h4 style="font-size:0.85rem; margin-bottom:8px; font-weight:600;">Pilih Varian / Tipe:</h4>
+                <div id="modal-type-list" class="type-select-list"></div>
+
+                <button onclick="addSelectedProductToCart()" class="btn-black">Tambah ke Keranjang</button>
             </div>
         </div>
 
@@ -626,30 +630,26 @@
                         <strong id="cart-total">Rp0</strong>
                     </div>
 
-                    <div class="form-group">
-                        <label>Nomor WhatsApp Target (Penerima Produk):</label>
-                        <input type="text" id="target-phone" placeholder="Contoh: 08123456789">
+                    <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:4px;">Nomor WhatsApp Target (Penerima):</label>
+                    <input type="text" id="target-phone" placeholder="Contoh: 08123456789">
 
-                        <label>Metode Pembayaran:</label>
-                        <select id="payment-method" onchange="handlePaymentChange()">
-                            <option value="">Pilih Metode Pembayaran</option>
-                            <option value="QRIS">QRIS</option>
-                            <option value="DANA">DANA</option>
-                            <option value="GOPAY">GOPAY</option>
-                            <option value="SHOPEEPAY">SHOPEEPAY</option>
-                            <option value="OVO">OVO</option>
-                        </select>
+                    <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:4px;">Metode Pembayaran:</label>
+                    <select id="payment-method" onchange="handlePaymentChange()">
+                        <option value="">Pilih Metode Pembayaran</option>
+                        <option value="QRIS">QRIS</option>
+                        <option value="DANA">DANA</option>
+                        <option value="GOPAY">GOPAY</option>
+                        <option value="SHOPEEPAY">SHOPEEPAY</option>
+                        <option value="OVO">OVO</option>
+                    </select>
 
-                        <!-- QRIS Panel -->
-                        <div id="qris-section" class="qris-panel hidden">
-                            <img src="https://cdn.phototourl.com/free/2026-08-19-7b6a333c-d325-4055-bf2e-5cb817280f57.jpg" alt="QRIS" class="qris-image">
-                            <p class="qris-instruction">Scan QRIS di atas.<br><strong>Jika sudah transfer, silahkan klik tombol dibawah untuk verifikasi.</strong></p>
-                            <button onclick="verifyQRISWhatsApp()" class="btn-black" style="background: #000; font-size: 0.8rem;">Konfirmasi Transfer ke Admin</button>
-                        </div>
-
-                        <!-- Standard Checkout E-Wallet -->
-                        <button id="btn-standard-checkout" onclick="checkoutWhatsApp()" class="btn-black">Checkout via WhatsApp</button>
+                    <div id="qris-section" class="qris-panel hidden">
+                        <img src="https://cdn.phototourl.com/free/2026-08-19-7b6a333c-d325-4055-bf2e-5cb817280f57.jpg" alt="QRIS" class="qris-image">
+                        <p class="qris-instruction">Scan QRIS di atas.<br><strong>Jika sudah transfer, klik verifikasi di bawah.</strong></p>
+                        <button onclick="verifyQRISWhatsApp()" class="btn-black" style="font-size: 0.8rem;">Konfirmasi Transfer ke Admin</button>
                     </div>
+
+                    <button id="btn-standard-checkout" onclick="checkoutWhatsApp()" class="btn-black">Checkout via WhatsApp</button>
                 </div>
             </div>
         </div>
@@ -669,52 +669,155 @@
     </div>
 
     <script>
-        let storeData = { storeInfo: { name: "RYY STORE", description: "" }, products: [] };
+        let storeData = { storeInfo: {}, categories: [], products: [] };
         let generatedOTP = "";
         let cart = [];
+        let currentActiveProduct = null;
+        let selectedProductType = null;
         const ADMIN_WA = "6282245682288";
 
         document.addEventListener("DOMContentLoaded", async () => {
-            await loadProducts();
-            checkLocalStorageAuth();
-            initStore();
-            setDynamicGreeting();
+            await loadStoreData();
+            checkSessionState();
         });
 
-        async function loadProducts() {
+        async function loadStoreData() {
             try {
                 const response = await fetch('produk.json');
                 if (response.ok) {
                     storeData = await response.json();
+                    initLandingPage();
                 }
             } catch (error) {
                 console.error("Gagal memuat produk.json:", error);
             }
         }
 
-        function setDynamicGreeting() {
+        function initLandingPage() {
+            document.getElementById("landing-store-name").innerText = storeData.storeInfo.name;
+            document.getElementById("landing-store-desc").innerText = storeData.storeInfo.description;
+            document.getElementById("landing-owner").innerText = storeData.storeInfo.owner;
+            document.getElementById("landing-since").innerText = storeData.storeInfo.operatingSince;
+            document.getElementById("landing-buyers").innerText = `${storeData.storeInfo.totalBuyers} pembeli dari ${storeData.storeInfo.operatingSince}`;
+        }
+
+        function showToast(message) {
+            const container = document.getElementById("toast-container");
+            const toast = document.createElement("div");
+            toast.className = "toast";
+            toast.innerText = message;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        }
+
+        function enterStore() {
+            document.getElementById("landing-section").classList.add("hidden");
             const currentUser = JSON.parse(localStorage.getItem("current_user"));
-            if (!currentUser) return;
-
-            const hour = new Date().getHours();
-            let timeGreeting = "Pagi";
-            if (hour >= 11 && hour < 15) {
-                timeGreeting = "Siang";
-            } else if (hour >= 15 && hour < 18) {
-                timeGreeting = "Sore";
-            } else if (hour >= 18 || hour < 4) {
-                timeGreeting = "Malam";
+            if (!currentUser) {
+                document.getElementById("auth-section").classList.remove("hidden");
+            } else {
+                launchApp();
             }
+        }
 
-            document.getElementById("greeting-banner").innerText = `Selamat ${timeGreeting} @${currentUser.username}`;
+        function checkSessionState() {
+            const currentUser = JSON.parse(localStorage.getItem("current_user"));
+            if (currentUser) {
+                document.getElementById("landing-section").classList.add("hidden");
+                document.getElementById("auth-section").classList.add("hidden");
+                document.getElementById("app-section").classList.remove("hidden");
+                launchApp();
+            }
+        }
+
+        function launchApp() {
+            document.getElementById("store-name-display").innerText = storeData.storeInfo.name;
+            document.getElementById("store-desc-display").innerText = storeData.storeInfo.description;
+            renderCategories();
+            renderProducts("Semua");
+            setDynamicGreeting();
+            updateProfileDashboard();
+        }
+
+        function switchView(viewName) {
+            if (viewName === 'catalog') {
+                document.getElementById("view-catalog").classList.remove("hidden");
+                document.getElementById("view-profile").classList.add("hidden");
+            } else if (viewName === 'profile') {
+                document.getElementById("view-catalog").classList.add("hidden");
+                document.getElementById("view-profile").classList.remove("hidden");
+                updateProfileDashboard();
+            }
+        }
+
+        // PASSWORD STRENGTH CHECKER
+        function calculateStrength(password) {
+            let score = 0;
+            if (password.length >= 8) score++;
+            if (/[a-zA-Z]/.test(password) && /[0-9]/.test(password)) score++;
+            if (/[^a-zA-Z0-9]/.test(password)) score++;
+            return score;
+        }
+
+        function checkPasswordStrength(password) {
+            const fill = document.getElementById("strength-fill");
+            const text = document.getElementById("strength-text");
+            const score = calculateStrength(password);
+
+            if (score === 1) {
+                fill.style.width = "33%";
+                fill.style.background = "#ff3b30";
+                text.innerText = "Keamanan: Rendah (Gunakan angka & simbol)";
+                text.style.color = "#ff3b30";
+            } else if (score === 2) {
+                fill.style.width = "66%";
+                fill.style.background = "#ffcc00";
+                text.innerText = "Keamanan: Medium (Tambahkan simbol khusus)";
+                text.style.color = "#b28600";
+            } else if (score >= 3) {
+                fill.style.width = "100%";
+                fill.style.background = "#28a745";
+                text.innerText = "Keamanan: Safety (Aman)";
+                text.style.color = "#28a745";
+            } else {
+                fill.style.width = "0%";
+                text.innerText = "Keamanan: Rendah";
+            }
+        }
+
+        function checkNewPasswordStrength(password) {
+            const fill = document.getElementById("new-strength-fill");
+            const text = document.getElementById("new-strength-text");
+            const score = calculateStrength(password);
+
+            if (score === 1) {
+                fill.style.width = "33%"; fill.style.background = "#ff3b30"; text.innerText = "Keamanan: Rendah";
+            } else if (score === 2) {
+                fill.style.width = "66%"; fill.style.background = "#ffcc00"; text.innerText = "Keamanan: Medium";
+            } else if (score >= 3) {
+                fill.style.width = "100%"; fill.style.background = "#28a745"; text.innerText = "Keamanan: Safety";
+            } else {
+                fill.style.width = "0%"; text.innerText = "Keamanan: Rendah";
+            }
         }
 
         function sendOTP() {
+            const method = document.getElementById("login-method").value;
             const contact = document.getElementById("contact-input").value.trim();
+
             if (!contact) {
-                alert("Nomor HP atau Email wajib diisi!");
+                alert("Kontak wajib diisi!");
                 return;
             }
+
+            if (method === 'email') {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(contact)) {
+                    alert("Format email tidak valid atau belum terverifikasi!");
+                    return;
+                }
+            }
+
             generatedOTP = Math.floor(1000 + Math.random() * 9000).toString();
             document.getElementById("otp-display").innerText = generatedOTP;
             document.getElementById("step-contact").classList.remove("active");
@@ -725,177 +828,196 @@
             const userOTP = document.getElementById("otp-input").value.trim();
             if (userOTP === generatedOTP) {
                 document.getElementById("step-otp").classList.remove("active");
-                document.getElementById("step-username").classList.add("active");
+                document.getElementById("step-credentials").classList.add("active");
             } else {
                 alert("Kode OTP salah!");
             }
         }
 
-        function saveUsername() {
+        function registerAccount() {
             const username = document.getElementById("username-input").value.trim();
+            const password = document.getElementById("password-input").value;
             const contact = document.getElementById("contact-input").value.trim();
 
-            if (!username) {
-                alert("Username tidak boleh kosong!");
+            // Strict Username Check
+            if (username.length < 5 || !/[a-zA-Z]/.test(username)) {
+                alert("Username minimal 5 karakter dan harus mengandung huruf!");
+                return;
+            }
+
+            // Strict Password Strength Check
+            if (calculateStrength(password) < 3) {
+                alert("Keamanan password masih Rendah/Medium! Harap gunakan minimal 8 karakter berisi huruf, angka, dan simbol.");
                 return;
             }
 
             const existingUsers = JSON.parse(localStorage.getItem("registered_users")) || [];
-            const isTaken = existingUsers.some(user => user.username === username);
-
-            if (isTaken) {
+            if (existingUsers.some(u => u.username === username)) {
                 alert("Username sudah digunakan orang lain.");
                 return;
             }
 
-            const userData = { contact, username, totalItemsBought: 0, totalMoneySpent: 0 };
+            const userData = { contact, username, password, totalItemsBought: 0, totalMoneySpent: 0 };
             existingUsers.push(userData);
             localStorage.setItem("registered_users", JSON.stringify(existingUsers));
             localStorage.setItem("current_user", JSON.stringify(userData));
 
-            checkLocalStorageAuth();
-            location.reload();
-        }
-
-        function checkLocalStorageAuth() {
-            const currentUser = JSON.parse(localStorage.getItem("current_user"));
-            if (currentUser) {
-                document.getElementById("auth-section").classList.add("hidden");
-                document.getElementById("app-section").classList.remove("hidden");
-                
-                // Set Profile Data
-                document.getElementById("prof-username").innerText = `@${currentUser.username}`;
-                document.getElementById("prof-email").innerText = currentUser.contact || "-";
-                document.getElementById("prof-total-items").innerText = `${currentUser.totalItemsBought || 0} Item`;
-                document.getElementById("prof-total-spent").innerText = `Rp${(currentUser.totalMoneySpent || 0).toLocaleString('id-ID')}`;
-            } else {
-                document.getElementById("auth-section").classList.remove("hidden");
-                document.getElementById("app-section").classList.add("hidden");
-            }
+            showToast("Login Berhasil!");
+            checkSessionState();
         }
 
         function logout() {
             localStorage.removeItem("current_user");
+            showToast("Logout Berhasil");
             location.reload();
         }
 
-        function initStore() {
-            document.getElementById("store-name-display").innerText = storeData.storeInfo.name;
-            document.getElementById("store-desc-display").innerText = storeData.storeInfo.description;
-            renderProducts(storeData.products);
+        function setDynamicGreeting() {
+            const currentUser = JSON.parse(localStorage.getItem("current_user"));
+            if (!currentUser) return;
+            const hour = new Date().getHours();
+            let timeGreet = hour < 11 ? "Pagi" : hour < 15 ? "Siang" : hour < 18 ? "Sore" : "Malam";
+            document.getElementById("greeting-banner").innerText = `Selamat ${timeGreet} @${currentUser.username}`;
         }
 
-        function renderProducts(products) {
+        function renderCategories() {
+            const container = document.getElementById("category-tabs");
+            container.innerHTML = "";
+            storeData.categories.forEach((cat, index) => {
+                container.innerHTML += `<button onclick="renderProducts('${cat}')" class="cat-tab ${index === 0 ? 'active' : ''}">${cat}</button>`;
+            });
+        }
+
+        function renderProducts(category) {
+            document.querySelectorAll(".cat-tab").forEach(tab => {
+                tab.classList.toggle("active", tab.innerText === category);
+            });
+
             const grid = document.getElementById("product-grid");
             grid.innerHTML = "";
-            products.forEach(product => {
-                const isReady = product.stock > 0;
-                const badgeClass = isReady ? "badge-ready" : "badge-sold";
-                const badgeText = isReady ? "Ready" : "Sold";
-                const btnState = isReady ? "" : "disabled";
-                const btnText = isReady ? "Tambah" : "Habis";
 
+            const filtered = category === "Semua" ? storeData.products : storeData.products.filter(p => p.category === category);
+
+            filtered.forEach(product => {
+                const isReady = product.stock > 0;
                 grid.innerHTML += `
-                    <div class="product-card">
+                    <div class="product-card" onclick="openProductDetail(${product.id})">
                         <div class="product-img-wrapper">
                             <img src="${product.image}" alt="${product.name}" class="product-img">
-                            <span class="badge-stock ${badgeClass}">${badgeText}</span>
+                            <span class="badge-stock ${isReady ? 'badge-ready' : 'badge-sold'}">${isReady ? 'Ready' : 'Sold'}</span>
                         </div>
                         <div class="product-info">
                             <h3 class="product-name">${product.name}</h3>
                             <p class="product-desc">${product.description}</p>
-                            <div class="product-price">Rp${product.price.toLocaleString('id-ID')}</div>
-                            <button onclick="addToCart(${product.id})" class="btn-add" ${btnState}>${btnText}</button>
+                            <div class="product-price">Mulai Rp${product.types[0].price.toLocaleString('id-ID')}</div>
                         </div>
                     </div>
                 `;
             });
         }
 
-        function addToCart(productId) {
-            const product = storeData.products.find(p => p.id === productId);
-            if (!product || product.stock <= 0) return;
+        function openProductDetail(productId) {
+            currentActiveProduct = storeData.products.find(p => p.id === productId);
+            if (!currentActiveProduct) return;
 
-            const existingItem = cart.find(item => item.id === productId);
+            document.getElementById("modal-prod-name").innerText = currentActiveProduct.name;
+            document.getElementById("modal-prod-img").src = currentActiveProduct.image;
+            document.getElementById("modal-prod-desc").innerText = currentActiveProduct.description;
 
-            if (existingItem) {
-                if (existingItem.quantity < product.stock) {
-                    existingItem.quantity += 1;
-                } else {
-                    alert("Jumlah melebihi stok yang tersedia!");
-                    return;
-                }
-            } else {
-                cart.push({ ...product, quantity: 1 });
-            }
+            const typeListContainer = document.getElementById("modal-type-list");
+            typeListContainer.innerHTML = "";
 
-            updateCartUI();
+            currentActiveProduct.types.forEach((type, index) => {
+                typeListContainer.innerHTML += `
+                    <div class="type-option ${index === 0 ? 'selected' : ''}" onclick="selectProductType(this, ${index})">
+                        <span>${type.typeName}</span>
+                        <strong>Rp${type.price.toLocaleString('id-ID')}</strong>
+                    </div>
+                `;
+            });
+            selectedProductType = currentActiveProduct.types[0];
+            document.getElementById("product-detail-modal").classList.remove("hidden");
         }
 
-        function removeFromCart(productId) {
-            cart = cart.filter(item => item.id !== productId);
+        function selectProductType(element, index) {
+            document.querySelectorAll(".type-option").forEach(el => el.classList.remove("selected"));
+            element.classList.add("selected");
+            selectedProductType = currentActiveProduct.types[index];
+        }
+
+        function toggleProductDetail() {
+            document.getElementById("product-detail-modal").classList.toggle("hidden");
+        }
+
+        function addSelectedProductToCart() {
+            if (!currentActiveProduct || currentActiveProduct.stock <= 0) {
+                alert("Stok produk habis!");
+                return;
+            }
+
+            const cartItemId = `${currentActiveProduct.id}-${selectedProductType.typeName}`;
+            const existing = cart.find(item => item.cartItemId === cartItemId);
+
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    cartItemId,
+                    id: currentActiveProduct.id,
+                    name: `${currentActiveProduct.name} (${selectedProductType.typeName})`,
+                    price: selectedProductType.price,
+                    quantity: 1
+                });
+            }
+
+            toggleProductDetail();
             updateCartUI();
+            showToast("Produk ditambahkan ke keranjang");
+        }
+
+        function removeFromCart(cartItemId) {
+            cart = cart.filter(item => item.cartItemId !== cartItemId);
+            updateCartUI();
+            showToast("Produk dihapus dari keranjang");
         }
 
         function updateCartUI() {
-            const cartItemsContainer = document.getElementById("cart-items");
-            const cartCount = document.getElementById("cart-count");
-            const cartTotal = document.getElementById("cart-total");
-
-            cartItemsContainer.innerHTML = "";
-            let total = 0;
-            let totalCount = 0;
+            const container = document.getElementById("cart-items");
+            container.innerHTML = "";
+            let total = 0, totalCount = 0;
 
             cart.forEach(item => {
                 let subtotal = item.price * item.quantity;
                 total += subtotal;
                 totalCount += item.quantity;
-
-                cartItemsContainer.innerHTML += `
+                container.innerHTML += `
                     <div class="cart-row">
                         <div class="cart-row-info">
                             <h4>${item.name} (${item.quantity}x)</h4>
                             <p>Rp${subtotal.toLocaleString('id-ID')}</p>
                         </div>
-                        <button onclick="removeFromCart(${item.id})" class="btn-del">Hapus</button>
+                        <button onclick="removeFromCart('${item.cartItemId}')" class="btn-del">Hapus</button>
                     </div>
                 `;
             });
 
-            cartCount.innerText = totalCount;
-            cartTotal.innerText = `Rp${total.toLocaleString('id-ID')}`;
+            document.getElementById("cart-count").innerText = totalCount;
+            document.getElementById("cart-total").innerText = `Rp${total.toLocaleString('id-ID')}`;
         }
 
         function toggleCart() {
             document.getElementById("cart-modal").classList.toggle("hidden");
         }
 
-        function toggleProfile() {
-            document.getElementById("profile-modal").classList.toggle("hidden");
-        }
-
         function handlePaymentChange() {
-            const paymentMethod = document.getElementById("payment-method").value;
-            const qrisSection = document.getElementById("qris-section");
-            const standardBtn = document.getElementById("btn-standard-checkout");
-
-            if (paymentMethod === "QRIS") {
-                qrisSection.classList.remove("hidden");
-                standardBtn.classList.add("hidden");
-            } else {
-                qrisSection.classList.add("hidden");
-                standardBtn.classList.remove("hidden");
-            }
+            const method = document.getElementById("payment-method").value;
+            document.getElementById("qris-section").classList.toggle("hidden", method !== "QRIS");
+            document.getElementById("btn-standard-checkout").classList.toggle("hidden", method === "QRIS");
         }
 
         function recordPurchase() {
-            let totalCount = 0;
-            let grandTotal = 0;
-
-            cart.forEach(item => {
-                totalCount += item.quantity;
-                grandTotal += (item.price * item.quantity);
-            });
+            let totalCount = 0, grandTotal = 0;
+            cart.forEach(item => { totalCount += item.quantity; grandTotal += (item.price * item.quantity); });
 
             let currentUser = JSON.parse(localStorage.getItem("current_user"));
             if (currentUser) {
@@ -913,66 +1035,74 @@
             const targetPhone = document.getElementById("target-phone").value.trim();
             const paymentMethod = document.getElementById("payment-method").value;
 
-            if (!targetPhone) {
-                alert("Nomor target WhatsApp (penerima) wajib diisi!");
+            if (!targetPhone || !paymentMethod || cart.length === 0) {
+                alert("Lengkapi nomor penerima, metode pembayaran, dan pastikan keranjang tidak kosong!");
                 return;
             }
 
-            if (!paymentMethod) {
-                alert("Metode pembayaran wajib dipilih!");
-                return;
-            }
-
-            if (cart.length === 0) {
-                alert("Keranjang belanja masih kosong!");
-                return;
-            }
-
-            let productDetails = "";
-            let grandTotal = 0;
-
-            cart.forEach((item) => {
+            let productDetails = "", grandTotal = 0;
+            cart.forEach(item => {
                 let subtotal = item.price * item.quantity;
                 grandTotal += subtotal;
-                productDetails += `\n- Nama produk: ${item.name}\n- Jumlah: ${item.quantity}\n- Harga: Rp${subtotal.toLocaleString('id-ID')}`;
+                productDetails += `\n- ${item.name} x${item.quantity} = Rp${subtotal.toLocaleString('id-ID')}`;
             });
 
             recordPurchase();
             let formattedTarget = targetPhone.startsWith('0') ? '62' + targetPhone.slice(1) : targetPhone;
-            const message = `Hallo, saya ingin membeli produk ini:${productDetails}\n- Total Keseluruhan: Rp${grandTotal.toLocaleString('id-ID')}\n- Metode Pembayaran: ${paymentMethod}\n- Nomor Penerima: ${formattedTarget}`;
-
-            const whatsappUrl = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
+            const message = `Halo RYY STORE, saya ingin memesan:${productDetails}\n- Total: Rp${grandTotal.toLocaleString('id-ID')}\n- Pembayaran: ${paymentMethod}\n- Penerima: ${formattedTarget}`;
+            window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(message)}`, '_blank');
         }
 
         function verifyQRISWhatsApp() {
             const targetPhone = document.getElementById("target-phone").value.trim();
-
-            if (!targetPhone) {
-                alert("Nomor target WhatsApp (penerima) wajib diisi!");
+            if (!targetPhone || cart.length === 0) {
+                alert("Isi nomor penerima produk terlebih dahulu!");
                 return;
             }
-
-            if (cart.length === 0) {
-                alert("Keranjang belanja masih kosong!");
-                return;
-            }
-
-            let grandTotal = 0;
-            let productNames = cart.map(item => `${item.name} (${item.quantity}x)`).join(", ");
-
-            cart.forEach((item) => {
-                grandTotal += item.price * item.quantity;
-            });
+            let grandTotal = 0, productNames = cart.map(i => `${i.name} (${i.quantity}x)`).join(", ");
+            cart.forEach(i => grandTotal += (i.price * i.quantity));
 
             recordPurchase();
-            let jumlahStr = `Rp${grandTotal.toLocaleString('id-ID')}`;
             let formattedTarget = targetPhone.startsWith('0') ? '62' + targetPhone.slice(1) : targetPhone;
+            const message = `Saya sudah transfer Rp${grandTotal.toLocaleString('id-ID')} untuk QRIS produk: ${productNames}.\nNo Penerima: ${formattedTarget}`;
+            window.open(`https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(message)}`, '_blank');
+        }
 
-            const message = `Saya sudah mentransfer sejumlah ${jumlahStr} untuk produk ${productNames}, silakan di cek.\nNomor Penerima Produk: ${formattedTarget}`;
+        function updateProfileDashboard() {
+            const currentUser = JSON.parse(localStorage.getItem("current_user"));
+            if (!currentUser) return;
 
-            const whatsappUrl = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
+            document.getElementById("dash-username").innerText = `@${currentUser.username}`;
+            document.getElementById("dash-email").innerText = currentUser.contact || "-";
+            document.getElementById("dash-total-items").innerText = `${currentUser.totalItemsBought || 0} Item`;
+            document.getElementById("dash-total-spent").innerText = `Rp${(currentUser.totalMoneySpent || 0).toLocaleString('id-ID')}`;
+        }
+
+        function changePassword() {
+            const oldPass = document.getElementById("old-password").value;
+            const newPass = document.getElementById("new-password").value;
+            let currentUser = JSON.parse(localStorage.getItem("current_user"));
+
+            if (!currentUser || oldPass !== currentUser.password) {
+                alert("Kata sandi lama salah!");
+                return;
+            }
+
+            if (calculateStrength(newPass) < 3) {
+                alert("Kata sandi baru tidak memenuhi standar keamanan safety (Min 8 char: Huruf, Angka, Simbol)!");
+                return;
+            }
+
+            currentUser.password = newPass;
+            localStorage.setItem("current_user", JSON.stringify(currentUser));
+
+            let registeredUsers = JSON.parse(localStorage.getItem("registered_users")) || [];
+            registeredUsers = registeredUsers.map(u => u.username === currentUser.username ? currentUser : u);
+            localStorage.setItem("registered_users", JSON.stringify(registeredUsers));
+
+            document.getElementById("old-password").value = "";
+            document.getElementById("new-password").value = "";
+            showToast("Kata sandi berhasil diubah!");
         }
     </script>
 </body>
