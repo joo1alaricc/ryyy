@@ -71,7 +71,6 @@
 
         .hidden { display: none !important; }
 
-        /* Notifikasi Baru: Di Bawah, Full Kanan ke Kiri, Lebih Besar, Header Sesuai Aksen */
         #toast-container {
             position: fixed; bottom: 20px; left: 20px; right: 20px; z-index: 9999;
             display: flex; justify-content: center; pointer-events: none;
@@ -110,7 +109,7 @@
         .auth-container { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 16px; }
         .auth-card {
             background: var(--card-bg); backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--border-color); width: 100%; max-width: 380px; padding: 30px;
+            border: 1px solid var(--border-color); width: 100%; max-width: 420px; padding: 30px;
             border-radius: 24px; box-shadow: 0 12px 40px rgba(0,0,0,0.25); text-align: center;
             animation: fadeInScale 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -118,6 +117,11 @@
 
         .store-title { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 4px; color: var(--text-main); }
         .store-subtitle { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 20px; }
+        
+        .role-selector { display: flex; gap: 6px; margin-bottom: 16px; background: var(--bg-main); padding: 4px; border-radius: 12px; border: 1px solid var(--border-color); }
+        .role-btn { flex: 1; padding: 8px; border: none; background: transparent; color: var(--text-muted); font-size: 0.78rem; font-weight: 600; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+        .role-btn.active { background: var(--accent); color: #fff; box-shadow: 0 4px 12px var(--accent-glow); }
+
         .auth-step { display: none; }
         .auth-step.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -278,6 +282,16 @@
 
         .password-change-box { background: var(--card-bg); border: 1px solid var(--border-color); padding: 14px; border-radius: 12px; max-width: 400px; }
 
+        /* Admin Dashboard Styles */
+        .admin-table-container { width: 100%; overflow-x: auto; margin-top: 10px; }
+        .admin-table { width: 100%; border-collapse: collapse; }
+        .admin-table th, .admin-table td { border: 1px solid var(--border-color); padding: 8px; text-align: left; font-size: 0.78rem; }
+        .admin-table th { background: var(--card-bg); color: var(--accent); }
+        .admin-table input { margin-bottom: 0; padding: 5px 8px; font-size: 0.75rem; }
+        .btn-admin-action { padding: 5px 10px; font-size: 0.7rem; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; }
+        .btn-admin-save { background: #28a745; color: #fff; }
+        .btn-admin-del { background: rgba(220, 53, 69, 0.2); color: #ff6b6b; border: 1px solid rgba(220, 53, 69, 0.4); }
+
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(10px);
@@ -319,7 +333,6 @@
         .qris-image:hover { transform: scale(1.03); }
         .qris-instruction { font-size: 0.7rem; color: var(--text-main); margin-bottom: 6px; line-height: 1.3; }
 
-        /* Fullscreen Zoom Modal QRIS Maksimal (Mendukung Resolusi Tinggi 1136x1600px) */
         .qris-zoom-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px);
@@ -359,38 +372,55 @@
 
     <div id="toast-container"></div>
 
-    <!-- 1. AUTH SECTION -->
+    <!-- 1. AUTH SECTION (DUAL USER: USER & ADMIN) -->
     <div id="auth-section" class="auth-container">
         <div class="auth-card">
             <h1 class="store-title">RYY STORE</h1>
-            <p class="store-subtitle">Masuk untuk menjelajahi toko</p>
+            <p class="store-subtitle">Masuk untuk menjelajahi toko atau panel</p>
             
-            <div id="step-contact" class="auth-step active">
-                <select id="login-method" style="margin-bottom: 12px;">
-                    <option value="email">Gunakan Email (Terverifikasi)</option>
-                    <option value="phone">Gunakan Nomor Telepon</option>
-                </select>
-                <input type="text" id="contact-input" placeholder="Masukkan Email / Nomor HP">
-                <button onclick="sendOTP()" class="btn-accent">Kirim OTP</button>
+            <div class="role-selector">
+                <button type="button" onclick="switchRole('user')" id="btnUser" class="role-btn active">Login User</button>
+                <button type="button" onclick="switchRole('admin')" id="btnAdmin" class="role-btn">Login Admin</button>
             </div>
 
-            <div id="step-otp" class="auth-step">
-                <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom: 10px;">Simulasi Kode OTP: <strong id="otp-display" style="color:var(--accent);"></strong></p>
-                <input type="text" id="otp-input" placeholder="Masukkan 4 digit OTP">
-                <button onclick="verifyOTP()" class="btn-accent">Verifikasi OTP</button>
-            </div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div id="userAuthContainer">
+                    <div id="step-contact" class="auth-step active">
+                        <select id="login-method" style="margin-bottom: 12px;">
+                            <option value="email">Gunakan Email (Terverifikasi)</option>
+                            <option value="phone">Gunakan Nomor Telepon</option>
+                        </select>
+                        <input type="text" id="contact-input" placeholder="Masukkan Email / Nomor HP">
+                        <button type="button" onclick="sendOTP()" class="btn-accent">Kirim OTP</button>
+                    </div>
 
-            <div id="step-credentials" class="auth-step">
-                <input type="text" id="username-input" placeholder="Buat Username (Min 5 huruf)">
-                <input type="password" id="password-input" placeholder="Buat Password (Min 8 char)" oninput="checkPasswordStrength(this.value)">
-                
-                <div class="password-strength-meter">
-                    <div id="strength-fill" class="password-strength-fill"></div>
+                    <div id="step-otp" class="auth-step">
+                        <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom: 10px;">Simulasi Kode OTP: <strong id="otp-display" style="color:var(--accent);"></strong></p>
+                        <input type="text" id="otp-input" placeholder="Masukkan 4 digit OTP">
+                        <button type="button" onclick="verifyOTP()" class="btn-accent">Verifikasi OTP</button>
+                    </div>
+
+                    <div id="step-credentials" class="auth-step">
+                        <input type="text" id="username-input" placeholder="Buat Username (Min 5 huruf)">
+                        <input type="password" id="password-input" placeholder="Buat Password (Min 8 char)" oninput="checkPasswordStrength(this.value)">
+                        
+                        <div class="password-strength-meter">
+                            <div id="strength-fill" class="password-strength-fill"></div>
+                        </div>
+                        <p id="strength-text" class="strength-text">Keamanan: Rendah</p>
+                        
+                        <button type="button" onclick="registerAccount()" class="btn-accent">Simpan & Masuk</button>
+                    </div>
                 </div>
-                <p id="strength-text" class="strength-text">Keamanan: Rendah</p>
-                
-                <button onclick="registerAccount()" class="btn-accent">Simpan & Masuk</button>
-            </div>
+
+                <div id="adminAuthContainer" class="hidden">
+                    <input type="text" id="admin-username" placeholder="Username / Email Admin">
+                    <input type="password" id="admin-password" placeholder="Password Admin">
+                    <input type="text" id="admin-token" placeholder="Token Developer (cth: dev-7762...)">
+                    <input type="password" id="admin-pin" placeholder="PIN Admin (4-8 digit)" maxlength="8">
+                    <button type="submit" class="btn-accent">Masuk sebagai Admin</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -427,14 +457,14 @@
         </div>
     </div>
 
-    <!-- 3. MAIN APP SECTION -->
+    <!-- 3. MAIN APP SECTION (USER / ADMIN DASHBOARD) -->
     <div id="app-section" class="hidden">
         <header class="store-header">
             <div class="brand-area">
                 <h2 id="store-name-display">RYY STORE</h2>
                 <p id="store-slogan-display">Minimalist Selection</p>
             </div>
-            <div class="nav-actions">
+            <div class="nav-actions" id="userNavActions">
                 <button onclick="backToLanding()" class="btn-icon-minimal">Tentang</button>
                 <button onclick="switchView('catalog')" class="btn-icon-minimal">Katalog</button>
                 <button onclick="switchView('profile')" class="btn-icon-minimal">Profil</button>
@@ -443,15 +473,47 @@
                     (<span id="cart-count">0</span>)
                 </button>
             </div>
+            <div class="nav-actions hidden" id="adminNavActions">
+                <button onclick="logoutAccount()" class="btn-icon-minimal" style="color: #ff6b6b; border-color: rgba(220,53,69,0.3);">Logout Admin</button>
+            </div>
         </header>
 
         <main class="main-container">
+            <!-- VIEW CATALOG (User) -->
             <div id="view-catalog">
                 <h2 id="greeting-banner" class="greeting-banner">Selamat Pagi @user</h2>
                 <div id="category-tabs" class="category-tabs"></div>
                 <div id="product-grid" class="product-grid"></div>
             </div>
 
+            <!-- VIEW ADMIN PANEL -->
+            <div id="view-admin" class="hidden">
+                <div class="dashboard-container">
+                    <div class="dashboard-header">
+                        <h3>Panel Kontrol Admin Webstore</h3>
+                        <span id="admin-identity" style="font-weight: 600; color: var(--accent);">Admin</span>
+                    </div>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px;">Kelola data seluruh user terdaftar, lihat password, serta ubah pengeluaran manual di sini.</p>
+
+                    <div class="admin-table-container">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Email / Kontak</th>
+                                    <th>Password</th>
+                                    <th>Total Item</th>
+                                    <th>Total Pengeluaran (Rp)</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW PROFILE (User) -->
             <div id="view-profile" class="hidden">
                 <div class="dashboard-container">
                     <div class="dashboard-header">
@@ -478,7 +540,6 @@
                         </div>
                     </div>
 
-                    <!-- Panel Tambah Kontak Alternatif (Email jika awal No HP, atau sebaliknya) dengan OTP In-Interface -->
                     <div id="add-contact-panel" class="settings-panel" style="border-top: 1px solid var(--border-color); padding-top: 16px;">
                         <h4 id="add-contact-title">Tambah Kontak Alternatif</h4>
                         <div id="profile-step-input">
@@ -527,7 +588,6 @@
                         <button onclick="changePassword()" class="btn-accent">Perbarui Kata Sandi</button>
                     </div>
 
-                    <!-- Tombol Logout di Profile -->
                     <div style="margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 16px;">
                         <button onclick="logoutAccount()" style="width: 100%; padding: 11px; background: rgba(220, 53, 69, 0.15); color: #ff6b6b; border: 1px solid rgba(220, 53, 69, 0.3); border-radius: 12px; font-weight: 600; font-size: 0.88rem;">Keluar Akun (Logout)</button>
                     </div>
@@ -535,7 +595,7 @@
             </div>
         </main>
 
-        <!-- PRODUCT DETAIL MODAL (Termasuk Info Stok) -->
+        <!-- PRODUCT DETAIL MODAL -->
         <div id="product-detail-modal" class="modal-overlay hidden">
             <div class="modal-content">
                 <div class="modal-top">
@@ -593,7 +653,7 @@
             </div>
         </div>
 
-        <!-- QRIS ZOOM FULLSCREEN MODAL (Resolusi Tinggi 1136x1600px) -->
+        <!-- QRIS ZOOM FULLSCREEN MODAL -->
         <div id="qris-zoom-modal" class="qris-zoom-overlay hidden" onclick="closeQrisZoom(event)">
             <div class="qris-zoom-card" onclick="event.stopPropagation()">
                 <h3 style="font-size: 1rem; margin-bottom: 8px; font-weight: 600;">Scan QRIS Pembayaran</h3>
@@ -627,6 +687,7 @@
         let currentActiveProduct = null;
         let selectedProductType = null;
         let activeToastElement = null;
+        let currentLoginRole = 'user';
         const ADMIN_WA = "6282245682288";
 
         document.addEventListener("DOMContentLoaded", async () => {
@@ -686,6 +747,7 @@
         }
 
         function initLandingPageInfo() {
+            if(!storeData.storeInfo.name) return;
             document.getElementById("landing-store-name").innerText = storeData.storeInfo.name.toLowerCase();
             document.getElementById("landing-slogan-text").innerText = storeData.storeInfo.slogan;
             document.getElementById("landing-owner-title").innerText = storeData.storeInfo.owner;
@@ -724,7 +786,6 @@
             openProductDetail(productId);
         }
 
-        // Sistem Notifikasi Baru: Di bawah, full kanan ke kiri, ada header System Notification, tidak menumpuk
         function showToast(message) {
             const container = document.getElementById("toast-container");
             if (activeToastElement) {
@@ -747,11 +808,38 @@
             }, 3000);
         }
 
+        // Dual Role Switcher di Halaman Login
+        function switchRole(role) {
+            currentLoginRole = role;
+            const userContainer = document.getElementById('userAuthContainer');
+            const adminContainer = document.getElementById('adminAuthContainer');
+            const btnUser = document.getElementById('btnUser');
+            const btnAdmin = document.getElementById('btnAdmin');
+
+            if (role === 'admin') {
+                userContainer.classList.add('hidden');
+                adminContainer.classList.remove('hidden');
+                btnAdmin.classList.add('active');
+                btnUser.classList.remove('active');
+            } else {
+                userContainer.classList.remove('hidden');
+                adminContainer.classList.add('hidden');
+                btnUser.classList.add('active');
+                btnAdmin.classList.remove('active');
+            }
+        }
+
         function checkSessionState() {
             const currentUser = JSON.parse(localStorage.getItem("current_user"));
+            const currentAdmin = JSON.parse(localStorage.getItem("current_admin"));
             const hasSeenLanding = localStorage.getItem("has_seen_landing");
 
-            if (!currentUser) {
+            if (currentAdmin) {
+                document.getElementById("auth-section").classList.add("hidden");
+                document.getElementById("landing-section").classList.add("hidden");
+                document.getElementById("app-section").classList.remove("hidden");
+                launchAdminApp(currentAdmin);
+            } else if (!currentUser) {
                 document.getElementById("auth-section").classList.remove("hidden");
                 document.getElementById("landing-section").classList.add("hidden");
                 document.getElementById("app-section").classList.add("hidden");
@@ -763,7 +851,40 @@
                 document.getElementById("auth-section").classList.add("hidden");
                 document.getElementById("landing-section").classList.add("hidden");
                 document.getElementById("app-section").classList.remove("hidden");
-                launchApp();
+                launchUserApp();
+            }
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            if (currentLoginRole === 'admin') {
+                const userOrEmail = document.getElementById('admin-username').value.trim();
+                const pass = document.getElementById('admin-password').value;
+                const token = document.getElementById('admin-token').value.trim();
+                const pin = document.getElementById('admin-pin').value.trim();
+
+                try {
+                    let response = await fetch('admin.json');
+                    let admins = await response.json();
+
+                    let validAdmin = admins.find(a => 
+                        (a.username === userOrEmail || a.email === userOrEmail) && 
+                        a.password === pass && 
+                        a.tokenDeveloper === token && 
+                        a.pin === pin
+                    );
+
+                    if (validAdmin) {
+                        localStorage.setItem('current_admin', JSON.stringify(validAdmin));
+                        showToast('Login Admin Berhasil!');
+                        checkSessionState();
+                    } else {
+                        alert('Gagal! Data Admin, Token Developer, atau PIN tidak cocok.');
+                    }
+                } catch (error) {
+                    console.error('Gagal memuat admin.json:', error);
+                    alert('Terjadi kesalahan sistem / file admin.json tidak ditemukan.');
+                }
             }
         }
 
@@ -771,7 +892,7 @@
             localStorage.setItem("has_seen_landing", "true");
             document.getElementById("landing-section").classList.add("hidden");
             document.getElementById("app-section").classList.remove("hidden");
-            launchApp();
+            launchUserApp();
         }
 
         function backToLanding() {
@@ -779,13 +900,84 @@
             document.getElementById("landing-section").classList.remove("hidden");
         }
 
-        function launchApp() {
-            document.getElementById("store-name-display").innerText = storeData.storeInfo.name;
-            document.getElementById("store-slogan-display").innerText = storeData.storeInfo.slogan;
+        function launchUserApp() {
+            document.getElementById("userNavActions").classList.remove("hidden");
+            document.getElementById("adminNavActions").classList.add("hidden");
+            document.getElementById("view-catalog").classList.remove("hidden");
+            document.getElementById("view-admin").classList.add("hidden");
+            document.getElementById("view-profile").classList.add("hidden");
+
+            document.getElementById("store-name-display").innerText = storeData.storeInfo.name || "RYY STORE";
+            document.getElementById("store-slogan-display").innerText = storeData.storeInfo.slogan || "";
             renderCategories();
             renderProducts("Semua");
             setDynamicGreeting();
             updateProfileDashboard();
+        }
+
+        function launchAdminApp(adminData) {
+            document.getElementById("userNavActions").classList.add("hidden");
+            document.getElementById("adminNavActions").classList.remove("hidden");
+            document.getElementById("view-catalog").classList.add("hidden");
+            document.getElementById("view-profile").classList.add("hidden");
+            document.getElementById("view-admin").classList.remove("hidden");
+
+            document.getElementById("store-name-display").innerText = "RYY STORE [ADMIN PANEL]";
+            document.getElementById("store-slogan-display").innerText = `Logged in as @${adminData.username}`;
+            document.getElementById("admin-identity").innerText = `@${adminData.username}`;
+            loadUserTableForAdmin();
+        }
+
+        function loadUserTableForAdmin() {
+            const tbody = document.getElementById('userTableBody');
+            tbody.innerHTML = '';
+            let registeredUsers = JSON.parse(localStorage.getItem('registered_users')) || [];
+
+            if (registeredUsers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color: var(--text-muted);">Belum ada user terdaftar.</td></tr>';
+                return;
+            }
+
+            registeredUsers.forEach((user, index) => {
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><input type="text" id="username_${index}" value="${user.username || ''}"></td>
+                    <td><input type="text" id="contact_${index}" value="${user.contact || ''}"></td>
+                    <td><input type="text" id="password_${index}" value="${user.password || ''}"></td>
+                    <td><input type="number" id="items_${index}" value="${user.totalItemsBought || 0}" style="width: 50px;"></td>
+                    <td><input type="number" id="spent_${index}" value="${user.totalMoneySpent || 0}" style="width: 90px;"></td>
+                    <td>
+                        <div style="display:flex; gap:4px;">
+                            <button onclick="saveUserByAdmin(${index})" class="btn-admin-action btn-admin-save">Simpan</button>
+                            <button onclick="deleteUserByAdmin(${index})" class="btn-admin-action btn-admin-del">Hapus</button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function saveUserByAdmin(index) {
+            let registeredUsers = JSON.parse(localStorage.getItem('registered_users')) || [];
+            registeredUsers[index].username = document.getElementById(`username_${index}`).value;
+            registeredUsers[index].contact = document.getElementById(`contact_${index}`).value;
+            registeredUsers[index].password = document.getElementById(`password_${index}`).value;
+            registeredUsers[index].totalItemsBought = parseInt(document.getElementById(`items_${index}`).value) || 0;
+            registeredUsers[index].totalMoneySpent = parseInt(document.getElementById(`spent_${index}`).value) || 0;
+
+            localStorage.setItem('registered_users', JSON.stringify(registeredUsers));
+            showToast('Data user berhasil diperbarui oleh admin!');
+            loadUserTableForAdmin();
+        }
+
+        function deleteUserByAdmin(index) {
+            if (confirm('Yakin ingin menghapus akun user ini dari sistem?')) {
+                let registeredUsers = JSON.parse(localStorage.getItem('registered_users')) || [];
+                registeredUsers.splice(index, 1);
+                localStorage.setItem('registered_users', JSON.stringify(registeredUsers));
+                loadUserTableForAdmin();
+                showToast('Akun user dihapus.');
+            }
         }
 
         function switchView(viewName) {
@@ -900,12 +1092,12 @@
 
         function logoutAccount() {
             localStorage.removeItem("current_user");
+            localStorage.removeItem("current_admin");
             localStorage.removeItem("has_seen_landing");
             showToast("Berhasil keluar akun");
             checkSessionState();
         }
 
-        // Tambah Email / Nomor di Profil secara In-Interface dengan OTP
         function sendProfileOTP() {
             const newContact = document.getElementById("profile-new-contact-input").value.trim();
             if (!newContact) { alert("Masukkan kontak baru!"); return; }
