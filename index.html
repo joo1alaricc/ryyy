@@ -71,21 +71,21 @@
 
         .hidden { display: none !important; }
 
+        /* Notifikasi Modern: Blur + Garis Kanan sesuai Aksen + Single Instance */
         #toast-container {
             position: fixed; top: 20px; right: 20px; z-index: 9999;
             display: flex; flex-direction: column; gap: 8px;
         }
         .toast {
-            background: var(--card-bg); backdrop-filter: blur(20px);
-            color: var(--text-main); padding: 10px 16px; border-radius: 12px;
+            background: var(--card-bg); backdrop-filter: blur(25px);
+            color: var(--text-main); padding: 12px 18px; border-radius: 14px;
             font-size: 0.78rem; font-weight: 500; border: 1px solid var(--border-color);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-            animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1), fadeOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) 2.2s forwards;
+            border-right: 4px solid var(--accent);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes fadeOut { to { opacity: 0; transform: translateY(-10px); } }
 
-        /* Smooth & Fluid Button Animations */
         button {
             cursor: pointer;
             transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -300,17 +300,33 @@
         }
         .type-option.selected { border-color: var(--accent); background: var(--accent-glow); }
 
-        .cart-list { max-height: 140px; overflow-y: auto; margin-bottom: 12px; }
-        .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--border-color); font-size: 0.8rem; }
+        .cart-list { max-height: 160px; overflow-y: auto; margin-bottom: 12px; display: flex; flex-direction: column; gap: 6px; }
+        .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 8px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; font-size: 0.8rem; gap: 8px; }
+        .cart-row-left { display: flex; align-items: center; gap: 8px; }
         .cart-row-info h4 { font-size: 0.8rem; font-weight: 500; }
         .cart-row-info p { font-size: 0.7rem; color: var(--text-muted); }
-        .btn-del { background: rgba(220, 53, 69, 0.2); color: #ff6b6b; border: none; padding: 3px 6px; border-radius: 6px; font-size: 0.65rem; cursor: pointer; }
+        .btn-del { background: rgba(220, 53, 69, 0.2); color: #ff6b6b; border: none; padding: 4px 8px; border-radius: 6px; font-size: 0.65rem; cursor: pointer; }
 
         .total-row { display: flex; justify-content: space-between; font-size: 0.86rem; font-weight: 600; margin-bottom: 10px; }
 
         .qris-panel { text-align: center; background: var(--card-bg); border: 1px solid var(--border-color); padding: 10px; border-radius: 10px; margin-top: 8px; }
-        .qris-image { width: 120px; height: 120px; background: #fff; padding: 4px; border-radius: 6px; margin-bottom: 6px; object-fit: contain; }
+        .qris-image { width: 120px; height: 120px; background: #fff; padding: 4px; border-radius: 6px; margin-bottom: 6px; object-fit: contain; cursor: pointer; transition: transform 0.2s; }
+        .qris-image:hover { transform: scale(1.03); }
         .qris-instruction { font-size: 0.7rem; color: var(--text-main); margin-bottom: 6px; line-height: 1.3; }
+
+        /* Fullscreen Zoom Modal QRIS Tetap mempertahankan UI web */
+        .qris-zoom-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(15px);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 2000; padding: 20px; animation: fadeIn 0.25s ease;
+        }
+        .qris-zoom-card {
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            padding: 24px; border-radius: 20px; text-align: center; max-width: 320px; width: 100%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); backdrop-filter: var(--glass-blur);
+        }
+        .qris-zoom-img { width: 220px; height: 220px; background: #fff; padding: 8px; border-radius: 12px; margin-bottom: 16px; object-fit: contain; }
 
         .store-footer {
             border-top: 1px solid var(--border-color); background: var(--card-bg);
@@ -385,7 +401,6 @@
             <div class="landing-hero">
                 <span class="badge-pill">Official Store Preview</span>
                 <h1>Hey! , I am <span id="landing-owner-title">Ryy</span></h1>
-                <!-- Slogan di atas tombol Lihat Produk -->
                 <p id="landing-slogan-text">Memuat slogan...</p>
                 <div class="hero-buttons">
                     <button onclick="enterStoreCatalog()" class="btn-accent">Lihat Produk</button>
@@ -399,7 +414,6 @@
                 <p><strong>Total Pembeli:</strong> <span id="landing-buyers">-</span></p>
             </div>
 
-            <!-- Bagian Best Seller (Langsung Buka Modal Varian/Checkout saat Diklik) -->
             <div class="best-seller-section">
                 <h3>⭐ Best Seller Produk</h3>
                 <div id="best-seller-grid" class="best-seller-grid"></div>
@@ -412,7 +426,6 @@
         <header class="store-header">
             <div class="brand-area">
                 <h2 id="store-name-display">RYY STORE</h2>
-                <!-- Slogan singkat di header utama -->
                 <p id="store-slogan-display">Minimalist Selection</p>
             </div>
             <div class="nav-actions">
@@ -489,6 +502,11 @@
                         <p id="new-strength-text" class="strength-text">Keamanan: Rendah</p>
                         <button onclick="changePassword()" class="btn-accent">Perbarui Kata Sandi</button>
                     </div>
+
+                    <!-- Tombol Logout di Profile -->
+                    <div style="margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 16px;">
+                        <button onclick="logoutAccount()" style="width: 100%; padding: 11px; background: rgba(220, 53, 69, 0.15); color: #ff6b6b; border: 1px solid rgba(220, 53, 69, 0.3); border-radius: 12px; font-weight: 600; font-size: 0.88rem;">Keluar Akun (Logout)</button>
+                    </div>
                 </div>
             </div>
         </main>
@@ -522,7 +540,7 @@
                 
                 <div class="checkout-box">
                     <div class="total-row">
-                        <span>Total:</span>
+                        <span>Total (Dipilih):</span>
                         <strong id="cart-total" style="color: var(--accent);">Rp0</strong>
                     </div>
 
@@ -540,12 +558,26 @@
                     </select>
 
                     <div id="qris-section" class="qris-panel hidden">
-                        <img src="https://cdn.phototourl.com/free/2026-08-19-7b6a333c-d325-4055-bf2e-5cb817280f57.jpg" alt="QRIS" class="qris-image">
-                        <p class="qris-instruction">Scan QRIS di atas.<br><strong>Jika sudah transfer, klik konfirmasi di bawah.</strong></p>
+                        <!-- QRIS bisa diklik untuk zoom & download -->
+                        <img src="https://cdn.phototourl.com/free/2026-08-19-7b6a333c-d325-4055-bf2e-5cb817280f57.jpg" alt="QRIS" class="qris-image" onclick="zoomQrisImage()">
+                        <p class="qris-instruction">Klik gambar QRIS untuk memperbesar/download.<br><strong>Jika sudah transfer, klik konfirmasi di bawah.</strong></p>
                         <button onclick="verifyQRISWhatsApp()" class="btn-accent" style="font-size: 0.75rem;">Konfirmasi Transfer ke Admin</button>
                     </div>
 
                     <button id="btn-standard-checkout" onclick="checkoutWhatsApp()" class="btn-accent">Checkout via WhatsApp</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- QRIS ZOOM FULLSCREEN MODAL (MEMPERTAHANKAN UI WEB) -->
+        <div id="qris-zoom-modal" class="qris-zoom-overlay hidden" onclick="closeQrisZoom(event)">
+            <div class="qris-zoom-card" onclick="event.stopPropagation()">
+                <h3 style="font-size: 0.95rem; margin-bottom: 10px; font-weight: 600;">Scan QRIS Pembayaran</h3>
+                <img src="https://cdn.phototourl.com/free/2026-08-19-7b6a333c-d325-4055-bf2e-5cb817280f57.jpg" alt="QRIS Zoomed" class="qris-zoom-img">
+                <p style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 12px;">Simpan atau scan QRIS ini melalui aplikasi e-wallet / m-banking Anda.</p>
+                <div style="display: flex; gap: 8px;">
+                    <a href="https://cdn.phototourl.com/free/2026-08-19-7b6a333c-d325-4055-bf2e-5cb817280f57.jpg" download="QRIS-RYYSTORE.jpg" class="btn-accent" style="text-decoration:none; display:block; padding:9px; font-size:0.78rem;">Download QRIS</a>
+                    <button onclick="closeQrisZoomDirect()" class="btn-icon-minimal" style="flex:1; justify-content:center;">Tutup</button>
                 </div>
             </div>
         </div>
@@ -569,6 +601,7 @@
         let cart = [];
         let currentActiveProduct = null;
         let selectedProductType = null;
+        let activeToastElement = null;
         const ADMIN_WA = "6282245682288";
 
         document.addEventListener("DOMContentLoaded", async () => {
@@ -646,7 +679,6 @@
             const bestSellers = storeData.products.filter(p => p.bestSeller);
 
             bestSellers.forEach(product => {
-                // Ketika best seller dipencet, langsung buka modal detail produk (pilih tipe -> checkout)
                 grid.innerHTML += `
                     <div class="bs-card" onclick="openProductDetailFromPortfolio(${product.id})">
                         <img src="${product.image}" alt="${product.name}" class="bs-img">
@@ -659,7 +691,6 @@
             });
         }
 
-        // Fungsi khusus agar dari portfolio bisa langsung masuk ke modal detail & checkout
         function openProductDetailFromPortfolio(productId) {
             localStorage.setItem("has_seen_landing", "true");
             document.getElementById("landing-section").classList.add("hidden");
@@ -668,13 +699,23 @@
             openProductDetail(productId);
         }
 
+        // Sistem Notifikasi: Mereplace notifikasi aktif sebelumnya supaya tidak menumpuk
         function showToast(message) {
             const container = document.getElementById("toast-container");
+            if (activeToastElement) {
+                activeToastElement.innerText = message;
+                return;
+            }
             const toast = document.createElement("div");
             toast.className = "toast";
             toast.innerText = message;
             container.appendChild(toast);
-            setTimeout(() => toast.remove(), 2200);
+            activeToastElement = toast;
+
+            setTimeout(() => {
+                if(toast) toast.remove();
+                if(activeToastElement === toast) activeToastElement = null;
+            }, 2500);
         }
 
         function checkSessionState() {
@@ -828,6 +869,13 @@
             checkSessionState();
         }
 
+        function logoutAccount() {
+            localStorage.removeItem("current_user");
+            localStorage.removeItem("has_seen_landing");
+            showToast("Berhasil keluar akun");
+            checkSessionState();
+        }
+
         function setDynamicGreeting() {
             const currentUser = JSON.parse(localStorage.getItem("current_user"));
             if (!currentUser) return;
@@ -921,13 +969,22 @@
                     id: currentActiveProduct.id,
                     name: `${currentActiveProduct.name} (${selectedProductType.typeName})`,
                     price: selectedProductType.price,
-                    quantity: 1
+                    quantity: 1,
+                    selected: true // Default tercentang
                 });
             }
 
             toggleProductDetail();
             updateCartUI();
             showToast("Ditambahkan ke keranjang");
+        }
+
+        function toggleItemSelection(cartItemId) {
+            const item = cart.find(i => i.cartItemId === cartItemId);
+            if (item) {
+                item.selected = !item.selected;
+                updateCartUI();
+            }
         }
 
         function removeFromCart(cartItemId) {
@@ -943,20 +1000,25 @@
 
             cart.forEach(item => {
                 let subtotal = item.price * item.quantity;
-                total += subtotal;
-                totalCount += item.quantity;
+                if (item.selected) {
+                    total += subtotal;
+                    totalCount += item.quantity;
+                }
                 container.innerHTML += `
                     <div class="cart-row">
-                        <div class="cart-row-info">
-                            <h4>${item.name} (${item.quantity}x)</h4>
-                            <p>Rp${subtotal.toLocaleString('id-ID')}</p>
+                        <div class="cart-row-left">
+                            <input type="checkbox" ${item.selected ? 'checked' : ''} onchange="toggleItemSelection('${item.cartItemId}')" style="width: 16px; height: 16px; margin: 0; cursor: pointer;">
+                            <div class="cart-row-info">
+                                <h4>${item.name} (${item.quantity}x)</h4>
+                                <p>Rp${subtotal.toLocaleString('id-ID')}</p>
+                            </div>
                         </div>
                         <button onclick="removeFromCart('${item.cartItemId}')" class="btn-del">Hapus</button>
                     </div>
                 `;
             });
 
-            document.getElementById("cart-count").innerText = totalCount;
+            document.getElementById("cart-count").innerText = cart.reduce((acc, i) => acc + i.quantity, 0);
             document.getElementById("cart-total").innerText = `Rp${total.toLocaleString('id-ID')}`;
         }
 
@@ -970,9 +1032,21 @@
             document.getElementById("btn-standard-checkout").classList.toggle("hidden", method === "QRIS");
         }
 
+        function zoomQrisImage() {
+            document.getElementById("qris-zoom-modal").classList.remove("hidden");
+        }
+
+        function closeQrisZoom(event) {
+            document.getElementById("qris-zoom-modal").classList.add("hidden");
+        }
+
+        function closeQrisZoomDirect() {
+            document.getElementById("qris-zoom-modal").classList.add("hidden");
+        }
+
         function recordPurchase() {
             let totalCount = 0, grandTotal = 0;
-            cart.forEach(item => { totalCount += item.quantity; grandTotal += (item.price * item.quantity); });
+            cart.filter(i => i.selected).forEach(item => { totalCount += item.quantity; grandTotal += (item.price * item.quantity); });
 
             let currentUser = JSON.parse(localStorage.getItem("current_user"));
             if (currentUser) {
@@ -989,14 +1063,15 @@
         function checkoutWhatsApp() {
             const targetPhone = document.getElementById("target-phone").value.trim();
             const paymentMethod = document.getElementById("payment-method").value;
+            const selectedItems = cart.filter(i => i.selected);
 
-            if (!targetPhone || !paymentMethod || cart.length === 0) {
-                alert("Lengkapi nomor penerima dan metode pembayaran!");
+            if (!targetPhone || !paymentMethod || selectedItems.length === 0) {
+                alert("Lengkapi nomor penerima, metode pembayaran, dan centang minimal 1 produk di keranjang!");
                 return;
             }
 
             let productDetails = "", grandTotal = 0;
-            cart.forEach(item => {
+            selectedItems.forEach(item => {
                 let subtotal = item.price * item.quantity;
                 grandTotal += subtotal;
                 productDetails += `\n- ${item.name} x${item.quantity} = Rp${subtotal.toLocaleString('id-ID')}`;
@@ -1010,12 +1085,13 @@
 
         function verifyQRISWhatsApp() {
             const targetPhone = document.getElementById("target-phone").value.trim();
-            if (!targetPhone || cart.length === 0) {
-                alert("Isi nomor penerima produk terlebih dahulu!");
+            const selectedItems = cart.filter(i => i.selected);
+            if (!targetPhone || selectedItems.length === 0) {
+                alert("Isi nomor penerima dan centang minimal 1 produk terlebih dahulu!");
                 return;
             }
-            let grandTotal = 0, productNames = cart.map(i => `${i.name} (${i.quantity}x)`).join(", ");
-            cart.forEach(i => grandTotal += (i.price * i.quantity));
+            let grandTotal = 0, productNames = selectedItems.map(i => `${i.name} (${i.quantity}x)`).join(", ");
+            selectedItems.forEach(i => grandTotal += (i.price * i.quantity));
 
             recordPurchase();
             let formattedTarget = targetPhone.startsWith('0') ? '62' + targetPhone.slice(1) : targetPhone;
