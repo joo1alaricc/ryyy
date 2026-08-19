@@ -216,6 +216,7 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            position: relative;
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
@@ -224,11 +225,38 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
         }
 
-        .product-img {
+        .product-img-wrapper {
+            position: relative;
             width: 100%;
             height: 150px;
-            object-fit: cover;
             background: #f0f0f2;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Stock Badge */
+        .badge-stock {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #fff;
+            backdrop-filter: blur(4px);
+        }
+
+        .badge-ready {
+            background: rgba(40, 167, 69, 0.9);
+        }
+
+        .badge-sold {
+            background: rgba(220, 53, 69, 0.9);
         }
 
         .product-info {
@@ -273,6 +301,13 @@
 
         .btn-add:hover {
             opacity: 0.85;
+        }
+
+        .btn-add:disabled {
+            background: var(--border-color);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            opacity: 1;
         }
 
         /* Modal Overlays */
@@ -754,14 +789,23 @@
             const grid = document.getElementById("product-grid");
             grid.innerHTML = "";
             products.forEach(product => {
+                const isReady = product.stock > 0;
+                const badgeClass = isReady ? "badge-ready" : "badge-sold";
+                const badgeText = isReady ? "Ready" : "Sold";
+                const btnState = isReady ? "" : "disabled";
+                const btnText = isReady ? "Tambah" : "Habis";
+
                 grid.innerHTML += `
                     <div class="product-card">
-                        <img src="${product.image}" alt="${product.name}" class="product-img">
+                        <div class="product-img-wrapper">
+                            <img src="${product.image}" alt="${product.name}" class="product-img">
+                            <span class="badge-stock ${badgeClass}">${badgeText}</span>
+                        </div>
                         <div class="product-info">
                             <h3 class="product-name">${product.name}</h3>
                             <p class="product-desc">${product.description}</p>
                             <div class="product-price">Rp${product.price.toLocaleString('id-ID')}</div>
-                            <button onclick="addToCart(${product.id})" class="btn-add">Tambah</button>
+                            <button onclick="addToCart(${product.id})" class="btn-add" ${btnState}>${btnText}</button>
                         </div>
                     </div>
                 `;
@@ -770,10 +814,17 @@
 
         function addToCart(productId) {
             const product = storeData.products.find(p => p.id === productId);
+            if (!product || product.stock <= 0) return;
+
             const existingItem = cart.find(item => item.id === productId);
 
             if (existingItem) {
-                existingItem.quantity += 1;
+                if (existingItem.quantity < product.stock) {
+                    existingItem.quantity += 1;
+                } else {
+                    alert("Jumlah melebihi stok yang tersedia!");
+                    return;
+                }
             } else {
                 cart.push({ ...product, quantity: 1 });
             }
