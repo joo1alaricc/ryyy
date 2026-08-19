@@ -3,16 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RYY STORE — Professional Edition</title>
+    <title>RYY STORE — Professional Dark Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f2f2f7;
-            --card-bg: rgba(255, 255, 255, 0.78);
-            --text-main: #1d1d1f;
-            --text-muted: #86868b;
-            --border-color: rgba(209, 209, 214, 0.55);
-            --accent-dark: #000000;
+            --bg-dark: #0a0a0c;
+            --card-bg-dark: rgba(20, 20, 25, 0.75);
+            --text-main-dark: #f5f5f7;
+            --text-muted-dark: #86868b;
+            --border-dark: rgba(255, 255, 255, 0.1);
+            --accent-purple: #9d4edd;
+            --accent-purple-glow: rgba(157, 78, 221, 0.35);
+            
+            --bg-light: #f2f2f7;
+            --card-light: rgba(255, 255, 255, 0.78);
+            --text-light: #1d1d1f;
+            --text-muted-light: #86868b;
+            --border-light: rgba(209, 209, 214, 0.55);
             --glass-blur: blur(30px);
         }
 
@@ -24,8 +31,8 @@
         }
 
         body {
-            background: var(--bg-color);
-            color: var(--text-main);
+            background: var(--bg-dark);
+            color: var(--text-main-dark);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -34,91 +41,77 @@
             position: relative;
         }
 
-        /* ANIMATED BACKGROUND ORBS (Alpha 25%, Bergerak Bebas Kesana Kemari) */
+        /* ANIMATED BACKGROUND ORBS (Bergerak Bebas Kesana Kemari, Tempo Lambat) */
         .bg-animation-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             overflow: hidden;
             z-index: -1;
             pointer-events: none;
-            background: linear-gradient(135deg, #f5f5f7 0%, #e5e5ea 100%);
+            background: var(--bg-dark);
         }
 
         .orb {
             position: absolute;
             border-radius: 50%;
-            opacity: 0.25; /* Alpha 25% sesuai permintaan */
-            filter: blur(40px);
+            opacity: 0.25; /* Alpha 25% */
+            filter: blur(60px);
         }
 
         .orb-1 {
-            width: 380px; height: 380px;
-            background: rgba(100, 100, 130, 0.4);
-            animation: moveOrb1 28s infinite alternate cubic-bezier(0.37, 0, 0.63, 1);
+            width: 400px; height: 400px;
+            background: #7b2cbf;
+            animation: moveOrb1 32s infinite alternate cubic-bezier(0.37, 0, 0.63, 1);
         }
 
         .orb-2 {
-            width: 450px; height: 450px;
-            background: rgba(140, 140, 170, 0.35);
-            animation: moveOrb2 35s infinite alternate cubic-bezier(0.37, 0, 0.63, 1);
+            width: 480px; height: 480px;
+            background: #3a0ca3;
+            animation: moveOrb2 38s infinite alternate cubic-bezier(0.37, 0, 0.63, 1);
         }
 
         .orb-3 {
-            width: 280px; height: 280px;
-            background: rgba(80, 80, 100, 0.3);
-            animation: moveOrb3 22s infinite alternate cubic-bezier(0.37, 0, 0.63, 1);
+            width: 300px; height: 300px;
+            background: #4cc9f0;
+            animation: moveOrb3 25s infinite alternate cubic-bezier(0.37, 0, 0.63, 1);
         }
 
         @keyframes moveOrb1 {
             0% { transform: translate(-10%, -10%) scale(1); }
-            50% { transform: translate(60vw, 40vh) scale(1.15); }
-            100% { transform: translate(20vw, 80vh) scale(0.9); }
+            50% { transform: translate(70vw, 30vh) scale(1.2); }
+            100% { transform: translate(30vw, 80vh) scale(0.9); }
         }
 
         @keyframes moveOrb2 {
-            0% { transform: translate(80vw, 70vh) scale(0.95); }
-            50% { transform: translate(10vw, 30vh) scale(1.1); }
-            100% { transform: translate(50vw, -10vh) scale(1.2); }
+            0% { transform: translate(75vw, 60vh) scale(0.9); }
+            50% { transform: translate(15vw, 20vh) scale(1.15); }
+            100% { transform: translate(60vw, -10vh) scale(1.1); }
         }
 
         @keyframes moveOrb3 {
-            0% { transform: translate(40vw, 10vh) scale(1); }
-            50% { transform: translate(-10vw, 60vh) scale(0.85); }
-            100% { transform: translate(70vw, 80vh) scale(1.1); }
+            0% { transform: translate(30vw, 20vh) scale(1); }
+            50% { transform: translate(-10vw, 70vh) scale(0.85); }
+            100% { transform: translate(80vw, 70vh) scale(1.15); }
         }
 
         .hidden { display: none !important; }
 
         /* Toast Notification */
         #toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+            position: fixed; top: 20px; right: 20px; z-index: 9999;
+            display: flex; flex-direction: column; gap: 8px;
         }
-
         .toast {
-            background: rgba(29, 29, 31, 0.85);
+            background: rgba(25, 25, 30, 0.9);
             backdrop-filter: blur(20px);
-            color: #fff;
-            padding: 10px 16px;
-            border-radius: 12px;
-            font-size: 0.78rem;
-            font-weight: 500;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            color: #fff; padding: 10px 16px; border-radius: 12px;
+            font-size: 0.78rem; font-weight: 500;
+            border: 1px solid var(--border-dark);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
             animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.2s forwards;
         }
-
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes fadeOut {
-            to { opacity: 0; transform: translateY(-10px); }
-        }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeOut { to { opacity: 0; transform: translateY(-10px); } }
 
         /* Animasi Tombol Dinamis & Hidup (Tidak Flat) */
         button {
@@ -129,400 +122,259 @@
         }
         button:hover {
             transform: translateY(-1.5px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 15px rgba(157, 78, 221, 0.25);
         }
         button:active {
             transform: scale(0.95) translateY(0);
             box-shadow: none;
         }
 
-        /* Auth Container (Halaman Login Awal) */
+        /* 1. AUTH SECTION */
         .auth-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 16px;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; padding: 16px;
         }
-
         .auth-card {
-            background: var(--card-bg);
+            background: var(--card-bg-dark);
             backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--border-color);
-            width: 100%;
-            max-width: 380px;
-            padding: 30px;
-            border-radius: 24px;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+            border: 1px solid var(--border-dark);
+            width: 100%; max-width: 380px; padding: 30px;
+            border-radius: 24px; box-shadow: 0 12px 40px rgba(0,0,0,0.4);
             text-align: center;
         }
-
         .store-title {
-            font-size: 1.7rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            margin-bottom: 4px;
-            color: var(--accent-dark);
+            font-size: 1.7rem; font-weight: 700; letter-spacing: -0.5px;
+            margin-bottom: 4px; color: var(--text-main-dark);
         }
-
-        .store-subtitle {
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-        }
-
+        .store-subtitle { font-size: 0.82rem; color: var(--text-muted-dark); margin-bottom: 20px; }
         .auth-step { display: none; }
         .auth-step.active { display: block; }
 
         input, select {
-            width: 100%;
-            padding: 11px 14px;
-            margin-bottom: 12px;
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            color: var(--text-main);
-            font-size: 0.88rem;
-            outline: none;
-            transition: all 0.2s;
+            width: 100%; padding: 11px 14px; margin-bottom: 12px;
+            background: rgba(15, 15, 20, 0.8);
+            border: 1px solid var(--border-dark);
+            border-radius: 12px; color: var(--text-main-dark);
+            font-size: 0.88rem; outline: none; transition: all 0.2s;
         }
-
         input:focus, select:focus {
-            border-color: var(--accent-dark);
-            background: #fff;
-            box-shadow: 0 0 0 3px rgba(0,0,0,0.04);
+            border-color: var(--accent-purple);
+            background: #121218;
+            box-shadow: 0 0 0 3px var(--accent-purple-glow);
         }
+        select option { background: #121218; color: #fff; }
 
-        .btn-black {
-            width: 100%;
-            padding: 11px;
-            background: var(--accent-dark);
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.88rem;
+        .btn-purple {
+            width: 100%; padding: 11px;
+            background: linear-gradient(135deg, #7b2cbf, #9d4edd);
+            color: #fff; border: none; border-radius: 12px;
+            font-weight: 600; font-size: 0.88rem;
+            box-shadow: 0 4px 15px rgba(123, 44, 191, 0.3);
         }
-        .btn-black:hover { opacity: 0.88; }
+        .btn-purple:hover { opacity: 0.9; }
 
         .password-strength-meter {
-            height: 5px;
-            border-radius: 3px;
-            background: var(--border-color);
-            margin-bottom: 6px;
-            overflow: hidden;
+            height: 5px; border-radius: 3px; background: rgba(255,255,255,0.1);
+            margin-bottom: 6px; overflow: hidden;
         }
         .password-strength-fill { height: 100%; width: 0%; transition: width 0.3s, background 0.3s; }
-        .strength-text { font-size: 0.72rem; text-align: left; margin-bottom: 12px; font-weight: 500; color: var(--text-muted); }
+        .strength-text { font-size: 0.72rem; text-align: left; margin-bottom: 12px; font-weight: 500; color: var(--text-muted-dark); }
 
-        /* Halaman Perkenalan Toko (Professional Landing Card Style) */
+        /* 2. LANDING PAGE STYLE (Sesuai Contoh Gambar Referensi) */
         #landing-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 16px;
+            width: 100%; min-height: 100vh; padding: 20px 16px 60px 16px;
+            display: flex; flex-direction: column; align-items: center;
         }
 
-        .store-intro-card {
-            background: var(--card-bg);
-            backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--border-color);
-            width: 100%;
-            max-width: 420px;
-            padding: 28px;
-            border-radius: 24px;
-            box-shadow: 0 16px 48px rgba(0,0,0,0.08);
+        .landing-wrapper {
+            width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 40px;
         }
 
-        .intro-top-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 16px;
+        /* Top Nav Landing */
+        .landing-nav {
+            display: flex; justify-content: space-between; align-items: center;
+            width: 100%; padding: 10px 0; border-bottom: 1px solid var(--border-dark);
         }
+        .landing-brand { font-size: 1rem; font-weight: 700; color: var(--accent-purple); letter-spacing: -0.5px; }
+        .landing-nav-links { display: flex; gap: 12px; font-size: 0.75rem; color: var(--text-muted-dark); }
+        .landing-nav-links span { cursor: pointer; }
+        .landing-nav-links span:hover { color: var(--text-main-dark); }
 
-        .intro-brand h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--accent-dark);
-            letter-spacing: -0.5px;
+        /* Hero Section */
+        .landing-hero {
+            text-align: center; padding: 30px 0; display: flex; flex-direction: column; align-items: center; gap: 12px;
         }
-
-        .intro-brand p {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            margin-top: 2px;
+        .badge-pill {
+            background: rgba(157, 78, 221, 0.15); border: 1px solid rgba(157, 78, 221, 0.3);
+            padding: 4px 14px; border-radius: 20px; font-size: 0.7rem; color: #d8b4fe; font-weight: 500;
         }
+        .landing-hero h1 { font-size: 2rem; font-weight: 700; letter-spacing: -0.5px; line-height: 1.2; }
+        .landing-hero h1 span { color: var(--accent-purple); }
+        .landing-hero p { font-size: 0.82rem; color: var(--text-muted-dark); max-width: 440px; line-height: 1.5; }
 
-        .intro-description {
-            font-size: 0.84rem;
-            color: var(--text-main);
-            line-height: 1.5;
-            margin-bottom: 20px;
+        .hero-buttons { display: flex; gap: 10px; margin-top: 6px; }
+        .btn-outline-purple {
+            background: transparent; border: 1px solid var(--border-dark); color: var(--text-main-dark);
+            padding: 8px 16px; border-radius: 12px; font-size: 0.78rem; font-weight: 500;
         }
+        .btn-outline-purple:hover { border-color: var(--accent-purple); background: rgba(157, 78, 221, 0.1); }
 
-        .intro-meta-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
+        /* About Section Box */
+        .landing-box {
+            background: var(--card-bg-dark); backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-dark); border-radius: 20px; padding: 24px;
         }
+        .landing-box h2 { font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.3px; }
+        .landing-box p { font-size: 0.8rem; color: var(--text-muted-dark); line-height: 1.6; margin-bottom: 10px; }
 
-        .intro-meta-box {
-            background: rgba(255, 255, 255, 0.5);
-            border: 1px solid var(--border-color);
-            padding: 12px;
-            border-radius: 14px;
+        /* Projects Section Grid */
+        .landing-projects-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
         }
+        @media(max-width: 480px) { .landing-projects-grid { grid-template-columns: 1fr; } }
 
-        .intro-meta-box span {
-            font-size: 0.68rem;
-            color: var(--text-muted);
-            display: block;
-            margin-bottom: 2px;
+        .project-mini-card {
+            background: var(--card-bg-dark); border: 1px solid var(--border-dark);
+            border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;
         }
+        .project-mini-img { width: 100%; height: 110px; object-fit: cover; }
+        .project-mini-content { padding: 12px; display: flex; flex-direction: column; gap: 4px; }
+        .project-mini-content h4 { font-size: 0.84rem; font-weight: 600; }
+        .project-mini-content p { font-size: 0.68rem; color: var(--text-muted-dark); line-height: 1.3; }
 
-        .intro-meta-box strong {
-            font-size: 0.92rem;
-            color: var(--accent-dark);
-        }
+        /* 3. MAIN APP SECTION (Katalog, Header Compact, & Profil) */
+        #app-section { display: flex; flex-direction: column; min-height: 100vh; }
 
-        /* Glass Header (Compact & Proporsional) */
         .store-header {
-            background: rgba(255, 255, 255, 0.75);
+            background: rgba(15, 15, 20, 0.85);
             backdrop-filter: var(--glass-blur);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 16px;
-            border-bottom: 1px solid var(--border-color);
+            position: sticky; top: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 16px; border-bottom: 1px solid var(--border-dark);
         }
+        .brand-area h2 { font-size: 0.92rem; font-weight: 600; color: var(--text-main-dark); }
+        .brand-area p { font-size: 0.62rem; color: var(--text-muted-dark); }
 
-        .brand-area h2 { font-size: 0.92rem; font-weight: 600; color: var(--accent-dark); }
-        .brand-area p { font-size: 0.62rem; color: var(--text-muted); }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
+        .nav-actions { display: flex; align-items: center; gap: 4px; }
         .btn-icon-minimal {
-            background: rgba(240, 240, 245, 0.85);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 5px 9px;
-            border-radius: 10px;
-            font-size: 0.7rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            white-space: nowrap;
+            background: rgba(30, 30, 40, 0.8);
+            border: 1px solid var(--border-dark);
+            color: var(--text-main-dark); padding: 5px 9px;
+            border-radius: 10px; font-size: 0.7rem; font-weight: 500;
+            display: flex; align-items: center; gap: 3px; white-space: nowrap;
         }
-        .btn-icon-minimal:hover { background: var(--border-color); }
+        .btn-icon-minimal:hover { background: rgba(157, 78, 221, 0.2); border-color: var(--accent-purple); }
         .btn-icon-minimal svg { width: 12px; height: 12px; fill: currentColor; }
 
-        /* Main Container & Layout */
-        .main-container {
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 0 16px;
-            flex-grow: 1;
-            width: 100%;
-        }
-
-        .greeting-banner {
-            font-size: 1.15rem;
-            font-weight: 600;
-            margin-bottom: 14px;
-            letter-spacing: -0.3px;
-        }
+        .main-container { max-width: 900px; margin: 20px auto; padding: 0 16px; flex-grow: 1; width: 100%; }
+        .greeting-banner { font-size: 1.15rem; font-weight: 600; margin-bottom: 14px; letter-spacing: -0.3px; }
 
         /* Category Filter Tabs */
-        .category-tabs {
-            display: flex;
-            gap: 6px;
-            overflow-x: auto;
-            margin-bottom: 18px;
-            padding-bottom: 4px;
-        }
-
+        .category-tabs { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 18px; padding-bottom: 4px; }
         .cat-tab {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 5px 12px;
-            border-radius: 16px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            cursor: pointer;
-            white-space: nowrap;
+            background: var(--card-bg-dark); border: 1px solid var(--border-dark);
+            padding: 5px 12px; border-radius: 16px; font-size: 0.75rem; font-weight: 500;
+            cursor: pointer; white-space: nowrap; color: var(--text-muted-dark);
         }
         .cat-tab.active, .cat-tab:hover {
-            background: var(--accent-dark);
-            color: #fff;
-            border-color: var(--accent-dark);
+            background: var(--accent-purple); color: #fff; border-color: var(--accent-purple);
         }
 
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 14px;
-        }
-
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
         .product-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            background: var(--card-bg-dark); backdrop-filter: blur(20px);
+            border: 1px solid var(--border-dark); border-radius: 16px; overflow: hidden;
+            display: flex; flex-direction: column; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
         }
-        .product-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
-        }
+        .product-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(157, 78, 221, 0.15); }
 
-        .product-img-wrapper {
-            position: relative;
-            width: 100%;
-            height: 140px;
-            background: rgba(240, 240, 242, 0.5);
-        }
+        .product-img-wrapper { position: relative; width: 100%; height: 140px; background: rgba(0,0,0,0.3); }
         .product-img { width: 100%; height: 100%; object-fit: cover; }
 
         .badge-stock {
-            position: absolute;
-            top: 8px; right: 8px;
-            padding: 2px 7px;
-            border-radius: 20px;
-            font-size: 0.62rem;
-            font-weight: 600;
-            color: #fff;
+            position: absolute; top: 8px; right: 8px; padding: 2px 7px;
+            border-radius: 20px; font-size: 0.62rem; font-weight: 600; color: #fff;
         }
         .badge-ready { background: rgba(40, 167, 69, 0.9); }
         .badge-sold { background: rgba(220, 53, 69, 0.9); }
 
         .product-info { padding: 10px; display: flex; flex-direction: column; flex-grow: 1; }
         .product-name { font-size: 0.86rem; font-weight: 600; margin-bottom: 3px; }
-        .product-desc { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 6px; flex-grow: 1; line-height: 1.3; }
-        .product-price { font-size: 0.82rem; font-weight: 600; color: var(--accent-dark); }
+        .product-desc { font-size: 0.7rem; color: var(--text-muted-dark); margin-bottom: 6px; flex-grow: 1; line-height: 1.3; }
+        .product-price { font-size: 0.82rem; font-weight: 600; color: #d8b4fe; }
 
         /* Dashboard Profil Profesional */
         .dashboard-container {
-            background: var(--card-bg);
-            backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.04);
-            margin-bottom: 24px;
+            background: var(--card-bg-dark); backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-dark); border-radius: 20px; padding: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3); margin-bottom: 24px;
         }
-
         .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 12px;
-            margin-bottom: 16px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--border-dark); padding-bottom: 12px; margin-bottom: 16px;
         }
-        .dashboard-header h3 { font-size: 1rem; font-weight: 600; }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 12px;
-            margin-bottom: 18px;
-        }
-
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 18px; }
         .dash-card {
-            background: rgba(255, 255, 255, 0.6);
-            border: 1px solid var(--border-color);
-            padding: 12px;
-            border-radius: 12px;
+            background: rgba(25, 25, 35, 0.6); border: 1px solid var(--border-dark); padding: 12px; border-radius: 12px;
         }
-        .dash-card span { font-size: 0.7rem; color: var(--text-muted); display: block; margin-bottom: 3px; }
-        .dash-card strong { font-size: 0.95rem; color: var(--accent-dark); }
+        .dash-card span { font-size: 0.7rem; color: var(--text-muted-dark); display: block; margin-bottom: 3px; }
+        .dash-card strong { font-size: 0.95rem; color: var(--text-main-dark); }
 
         .password-change-box {
-            background: rgba(255, 255, 255, 0.4);
-            border: 1px solid var(--border-color);
-            padding: 14px;
-            border-radius: 12px;
-            max-width: 400px;
+            background: rgba(20, 20, 28, 0.4); border: 1px solid var(--border-dark); padding: 14px; border-radius: 12px; max-width: 400px;
         }
         .password-change-box h4 { font-size: 0.82rem; font-weight: 600; margin-bottom: 8px; }
 
         /* Modals Glass */
         .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.35);
-            backdrop-filter: blur(12px);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 1000; padding: 16px;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(12px);
+            display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 16px;
         }
-
         .modal-content {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--border-color);
-            width: 100%; max-width: 380px;
-            border-radius: 20px; padding: 20px;
-            max-height: 90vh; overflow-y: auto;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            background: rgba(20, 20, 26, 0.95); backdrop-filter: blur(30px);
+            border: 1px solid var(--border-dark); width: 100%; max-width: 380px;
+            border-radius: 20px; padding: 20px; max-height: 90vh; overflow-y: auto;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
         }
-
-        .modal-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        .modal-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border-dark); padding-bottom: 8px; }
         .modal-top h3 { font-size: 0.92rem; font-weight: 600; }
-        .btn-close { background: none; border: none; font-size: 1.1rem; cursor: pointer; color: var(--text-muted); }
+        .btn-close { background: none; border: none; font-size: 1.1rem; cursor: pointer; color: var(--text-muted-dark); }
 
         .type-select-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
         .type-option {
-            background: rgba(255,255,255,0.7);
-            border: 1px solid var(--border-color);
-            padding: 9px 12px; border-radius: 10px;
-            display: flex; justify-content: space-between; align-items: center;
-            cursor: pointer; font-size: 0.8rem;
+            background: rgba(30, 30, 40, 0.6); border: 1px solid var(--border-dark);
+            padding: 9px 12px; border-radius: 10px; display: flex; justify-content: space-between;
+            align-items: center; cursor: pointer; font-size: 0.8rem;
         }
-        .type-option.selected { border-color: var(--accent-dark); background: #fff; }
+        .type-option.selected { border-color: var(--accent-purple); background: rgba(157, 78, 221, 0.15); }
 
         .cart-list { max-height: 140px; overflow-y: auto; margin-bottom: 12px; }
-        .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--border-color); font-size: 0.8rem; }
+        .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--border-dark); font-size: 0.8rem; }
         .cart-row-info h4 { font-size: 0.8rem; font-weight: 500; }
-        .cart-row-info p { font-size: 0.7rem; color: var(--text-muted); }
-        .btn-del { background: rgba(255, 59, 48, 0.1); color: #ff3b30; border: none; padding: 3px 6px; border-radius: 6px; font-size: 0.65rem; cursor: pointer; }
+        .cart-row-info p { font-size: 0.7rem; color: var(--text-muted-dark); }
+        .btn-del { background: rgba(220, 53, 69, 0.2); color: #ff6b6b; border: none; padding: 3px 6px; border-radius: 6px; font-size: 0.65rem; cursor: pointer; }
 
         .total-row { display: flex; justify-content: space-between; font-size: 0.86rem; font-weight: 600; margin-bottom: 10px; }
 
-        .qris-panel { text-align: center; background: rgba(255,255,255,0.5); border: 1px solid var(--border-color); padding: 10px; border-radius: 10px; margin-top: 8px; }
+        .qris-panel { text-align: center; background: rgba(25,25,35,0.6); border: 1px solid var(--border-dark); padding: 10px; border-radius: 10px; margin-top: 8px; }
         .qris-image { width: 120px; height: 120px; background: #fff; padding: 4px; border-radius: 6px; margin-bottom: 6px; object-fit: contain; }
-        .qris-instruction { font-size: 0.7rem; color: var(--text-main); margin-bottom: 6px; line-height: 1.3; }
+        .qris-instruction { font-size: 0.7rem; color: var(--text-main-dark); margin-bottom: 6px; line-height: 1.3; }
 
         /* Footer Glass */
         .store-footer {
-            border-top: 1px solid var(--border-color);
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: var(--glass-blur);
-            padding: 16px; margin-top: auto; text-align: center;
+            border-top: 1px solid var(--border-dark); background: rgba(15, 15, 20, 0.6);
+            backdrop-filter: var(--glass-blur); padding: 16px; margin-top: auto; text-align: center;
         }
         .footer-content { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 6px; align-items: center; }
-        .footer-copy { font-size: 0.72rem; color: var(--text-muted); }
+        .footer-copy { font-size: 0.72rem; color: var(--text-muted-dark); }
         .contact-title { font-size: 0.78rem; font-weight: 600; }
         .contact-buttons { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
         .btn-contact {
-            background: rgba(255,255,255,0.7); border: 1px solid var(--border-color);
-            color: var(--text-main); padding: 4px 10px; border-radius: 8px; font-size: 0.7rem; text-decoration: none;
+            background: rgba(30, 30, 40, 0.8); border: 1px solid var(--border-dark);
+            color: var(--text-main-dark); padding: 4px 10px; border-radius: 8px; font-size: 0.7rem; text-decoration: none;
         }
-        .btn-contact:hover { background: var(--accent-dark); color: #fff; border-color: var(--accent-dark); }
+        .btn-contact:hover { background: var(--accent-purple); color: #fff; border-color: var(--accent-purple); }
     </style>
 </head>
 <body>
@@ -536,7 +388,7 @@
 
     <div id="toast-container"></div>
 
-    <!-- 1. AUTH SECTION (HALAMAN LOGIN AWAL) -->
+    <!-- 1. AUTH SECTION -->
     <div id="auth-section" class="auth-container">
         <div class="auth-card">
             <h1 class="store-title">RYY STORE</h1>
@@ -548,13 +400,13 @@
                     <option value="phone">Gunakan Nomor Telepon</option>
                 </select>
                 <input type="text" id="contact-input" placeholder="Masukkan Email / Nomor HP">
-                <button onclick="sendOTP()" class="btn-black">Kirim OTP</button>
+                <button onclick="sendOTP()" class="btn-purple">Kirim OTP</button>
             </div>
 
             <div id="step-otp" class="auth-step">
-                <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom: 10px;">Simulasi Kode OTP: <strong id="otp-display" style="color:var(--accent-dark);"></strong></p>
+                <p style="font-size:0.75rem; color:var(--text-muted-dark); margin-bottom: 10px;">Simulasi Kode OTP: <strong id="otp-display" style="color:#d8b4fe;"></strong></p>
                 <input type="text" id="otp-input" placeholder="Masukkan 4 digit OTP">
-                <button onclick="verifyOTP()" class="btn-black">Verifikasi OTP</button>
+                <button onclick="verifyOTP()" class="btn-purple">Verifikasi OTP</button>
             </div>
 
             <div id="step-credentials" class="auth-step">
@@ -566,45 +418,64 @@
                 </div>
                 <p id="strength-text" class="strength-text">Keamanan: Rendah</p>
                 
-                <button onclick="registerAccount()" class="btn-black">Simpan & Masuk</button>
+                <button onclick="registerAccount()" class="btn-purple">Simpan & Masuk</button>
             </div>
         </div>
     </div>
 
-    <!-- 2. PROFESSIONAL LANDING SECTION (SETELAH LOGIN - CARD STYLE) -->
+    <!-- 2. PROFESSIONAL LANDING SECTION (Gaya Portfolio Dark Sesuai Contoh Gambar) -->
     <div id="landing-section" class="hidden">
-        <div class="store-intro-card">
-            <div class="intro-top-row">
-                <div class="intro-brand">
-                    <h1 id="landing-store-name">RYY STORE</h1>
-                    <p id="landing-store-desc">Minimalist Selection & Premium Tech Provider</p>
+        <div class="landing-wrapper">
+            <!-- Navigasi Atas -->
+            <div class="landing-nav">
+                <div class="landing-brand" id="landing-store-name">ryystore</div>
+                <div class="landing-nav-links">
+                    <span onclick="enterStoreCatalog()">Katalog</span>
+                    <span onclick="logout()">Keluar</span>
                 </div>
-                <button onclick="logout()" class="btn-icon-minimal">Keluar</button>
             </div>
 
-            <p class="intro-description">Selamat datang di platform eksklusif kami. Nikmati kurasi produk teknologi premium pilihan dengan standar kualitas tertinggi.</p>
-            
-            <div class="intro-meta-grid">
-                <div class="intro-meta-box">
-                    <span>Owner Toko</span>
-                    <strong id="landing-owner">-</strong>
+            <!-- Hero Section -->
+            <div class="landing-hero">
+                <span class="badge-pill">Available for Premium Tech</span>
+                <h1>Hey! , I am <span id="landing-owner-title">Ryy</span></h1>
+                <p id="landing-store-desc">Minimalist Selection & Premium Tech Provider</p>
+                <div class="hero-buttons">
+                    <button onclick="enterStoreCatalog()" class="btn-purple">View My Catalog</button>
+                    <button onclick="logout()" class="btn-outline-purple">Logout</button>
                 </div>
-                <div class="intro-meta-box">
-                    <span>Beroperasi Sejak</span>
-                    <strong id="landing-since">-</strong>
-                </div>
-            </div>
-            <div class="intro-meta-box" style="margin-bottom: 20px;">
-                <span>Total Pembeli Real</span>
-                <strong id="landing-buyers">-</strong>
             </div>
 
-            <button onclick="enterStoreCatalog()" class="btn-black">Lihat Produk</button>
+            <!-- About Me Box -->
+            <div class="landing-box">
+                <h2>About Store</h2>
+                <p>Kami adalah penyedia pilihan teknologi digital dan perangkat premium terkurasi dengan standar kualitas tertinggi. Menghadirkan pengalaman belanja yang cepat, aman, dan elegan.</p>
+                <p><strong>Owner:</strong> <span id="landing-owner">-</span> &nbsp;|&nbsp; <strong>Beroperasi Sejak:</strong> <span id="landing-since">-</span></p>
+                <p><strong>Total Pembeli:</strong> <span id="landing-buyers">-</span></p>
+            </div>
+
+            <!-- Preview Projects / Produk Unggulan -->
+            <div class="landing-projects-grid">
+                <div class="project-mini-card">
+                    <img src="https://cdn.phototourl.com/free/2026-08-19-7b6a333c-d325-4055-bf2e-5cb817280f57.jpg" alt="MacBook" class="project-mini-img">
+                    <div class="project-mini-content">
+                        <h4>MacBook Pro M3</h4>
+                        <p>Laptop super kencang dengan chip M3 dan layar Retina berkualitas tinggi.</p>
+                    </div>
+                </div>
+                <div class="project-mini-card">
+                    <img src="https://cdn.phototourl.com/free/2026-08-19-7b6a333c-d325-4055-bf2e-5cb817280f57.jpg" alt="iPhone" class="project-mini-img">
+                    <div class="project-mini-content">
+                        <h4>iPhone 15 Pro</h4>
+                        <p>Titanium design, chip A17 Pro bertenaga, dan sistem kamera level pro.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- 3. MAIN APP SECTION (KATALOG & PROFIL) -->
-    <div id="app-section" class="hidden" style="display: flex; flex-direction: column; min-height: 100vh;">
+    <div id="app-section" class="hidden">
         <header class="store-header">
             <div class="brand-area">
                 <h2 id="store-name-display">RYY STORE</h2>
@@ -633,12 +504,12 @@
                 <div id="product-grid" class="product-grid"></div>
             </div>
 
-            <!-- VIEW PROFIL (PROFESSIONAL DASHBOARD) -->
+            <!-- VIEW PROFIL -->
             <div id="view-profile" class="hidden">
                 <div class="dashboard-container">
                     <div class="dashboard-header">
                         <h3>Dashboard Akun Profesional</h3>
-                        <span id="dash-username" style="font-weight: 600;">@username</span>
+                        <span id="dash-username" style="font-weight: 600; color: #d8b4fe;">@username</span>
                     </div>
 
                     <div class="dashboard-grid">
@@ -664,7 +535,7 @@
                             <div id="new-strength-fill" class="password-strength-fill"></div>
                         </div>
                         <p id="new-strength-text" class="strength-text">Keamanan: Rendah</p>
-                        <button onclick="changePassword()" class="btn-black">Perbarui Kata Sandi</button>
+                        <button onclick="changePassword()" class="btn-purple">Perbarui Kata Sandi</button>
                     </div>
                 </div>
             </div>
@@ -678,12 +549,12 @@
                     <button onclick="toggleProductDetail()" class="btn-close">&times;</button>
                 </div>
                 <img id="modal-prod-img" src="" alt="" style="width:100%; height:140px; object-fit:cover; border-radius:10px; margin-bottom:10px;">
-                <p id="modal-prod-desc" style="font-size:0.72rem; color:var(--text-muted); margin-bottom:10px; line-height:1.3;"></p>
+                <p id="modal-prod-desc" style="font-size:0.72rem; color:var(--text-muted-dark); margin-bottom:10px; line-height:1.3;"></p>
                 
                 <h4 style="font-size:0.78rem; margin-bottom:6px; font-weight:600;">Pilih Varian / Tipe:</h4>
                 <div id="modal-type-list" class="type-select-list"></div>
 
-                <button onclick="addSelectedProductToCart()" class="btn-black">Tambah ke Keranjang</button>
+                <button onclick="addSelectedProductToCart()" class="btn-purple">Tambah ke Keranjang</button>
             </div>
         </div>
 
@@ -700,13 +571,13 @@
                 <div class="checkout-box">
                     <div class="total-row">
                         <span>Total:</span>
-                        <strong id="cart-total">Rp0</strong>
+                        <strong id="cart-total" style="color: #d8b4fe;">Rp0</strong>
                     </div>
 
-                    <label style="font-size:0.7rem; color:var(--text-muted); display:block; margin-bottom:2px;">Nomor WhatsApp Target (Penerima):</label>
+                    <label style="font-size:0.7rem; color:var(--text-muted-dark); display:block; margin-bottom:2px;">Nomor WhatsApp Target (Penerima):</label>
                     <input type="text" id="target-phone" placeholder="Contoh: 08123456789">
 
-                    <label style="font-size:0.7rem; color:var(--text-muted); display:block; margin-bottom:2px;">Metode Pembayaran:</label>
+                    <label style="font-size:0.7rem; color:var(--text-muted-dark); display:block; margin-bottom:2px;">Metode Pembayaran:</label>
                     <select id="payment-method" onchange="handlePaymentChange()">
                         <option value="">Pilih Metode Pembayaran</option>
                         <option value="QRIS">QRIS</option>
@@ -719,10 +590,10 @@
                     <div id="qris-section" class="qris-panel hidden">
                         <img src="https://cdn.phototourl.com/free/2026-08-19-7b6a333c-d325-4055-bf2e-5cb817280f57.jpg" alt="QRIS" class="qris-image">
                         <p class="qris-instruction">Scan QRIS di atas.<br><strong>Jika sudah transfer, klik konfirmasi di bawah.</strong></p>
-                        <button onclick="verifyQRISWhatsApp()" class="btn-black" style="font-size: 0.75rem;">Konfirmasi Transfer ke Admin</button>
+                        <button onclick="verifyQRISWhatsApp()" class="btn-purple" style="font-size: 0.75rem;">Konfirmasi Transfer ke Admin</button>
                     </div>
 
-                    <button id="btn-standard-checkout" onclick="checkoutWhatsApp()" class="btn-black">Checkout via WhatsApp</button>
+                    <button id="btn-standard-checkout" onclick="checkoutWhatsApp()" class="btn-purple">Checkout via WhatsApp</button>
                 </div>
             </div>
         </div>
@@ -767,11 +638,12 @@
         }
 
         function initLandingPageInfo() {
-            document.getElementById("landing-store-name").innerText = storeData.storeInfo.name;
+            document.getElementById("landing-store-name").innerText = storeData.storeInfo.name.toLowerCase();
             document.getElementById("landing-store-desc").innerText = storeData.storeInfo.description;
+            document.getElementById("landing-owner-title").innerText = storeData.storeInfo.owner;
             document.getElementById("landing-owner").innerText = storeData.storeInfo.owner;
             document.getElementById("landing-since").innerText = storeData.storeInfo.operatingSince;
-            document.getElementById("landing-buyers").innerText = `${storeData.storeInfo.totalBuyers} pembeli dari ${storeData.storeInfo.operatingSince}`;
+            document.getElementById("landing-buyers").innerText = `${storeData.storeInfo.totalBuyers} pembeli sejak ${storeData.storeInfo.operatingSince}`;
         }
 
         function showToast(message) {
@@ -851,7 +723,7 @@
             if (score === 1) {
                 fill.style.width = "33%"; fill.style.background = "#ff3b30"; text.innerText = "Keamanan: Rendah"; text.style.color = "#ff3b30";
             } else if (score === 2) {
-                fill.style.width = "66%"; fill.style.background = "#ffcc00"; text.innerText = "Keamanan: Medium"; text.style.color = "#b28600";
+                fill.style.width = "66%"; fill.style.background = "#ffcc00"; text.innerText = "Keamanan: Medium"; text.style.color = "#ffcc00";
             } else if (score >= 3) {
                 fill.style.width = "100%"; fill.style.background = "#28a745"; text.innerText = "Keamanan: Safety (Aman)"; text.style.color = "#28a745";
             } else {
