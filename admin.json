@@ -1,0 +1,16 @@
+[
+  {
+    "email": "admin1@store.com",
+    "username": "admin_utama",
+    "password": "passwordAdmin123",
+    "tokenDeveloper": "dev-7762hadk12837As",
+    "pin": "11223344"
+  },
+  {
+    "email": "admin2@store.com",
+    "username": "admin_cadangan",
+    "password": "passwordAdmin456",
+    "tokenDeveloper": "dev-7762hadk12837As",
+    "pin": "55667788"
+  }
+]
